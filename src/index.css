@@ -60,6 +60,13 @@ img {
   border-radius: 50%;
 }
 
+@media screen and (max-width: 700px) {
+  .logo {
+    width: 70px;
+    height: 70px;
+  }
+}
+
 .header__text {
   color: var(--branco50-95);
   font-size: small;
