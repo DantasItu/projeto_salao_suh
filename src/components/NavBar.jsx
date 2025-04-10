@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
 import { faMapLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { faSquareInstagram } from "@fortawesome/free-brands-svg-icons";
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 
 const Navbar = () => {
   return (
@@ -29,6 +30,9 @@ const Navbar = () => {
           <FontAwesomeIcon icon={faSquareInstagram} />
           <p className="navBar_link_text">Instagram</p>
         </Link>
+        <Link to="https://wa.me/+5515997193510" className="navBar_link" target="_blank">
+          <FontAwesomeIcon icon={faWhatsapp} />
+          <p className="navBar_link_text">Whatsapp</p></Link>
       </div>
     </>
   );
