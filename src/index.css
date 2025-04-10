@@ -1,0 +1,122 @@
+/* matriz de cores */
+:root {
+  --marrom-25: hsl(25, 9%, 25%);
+  --cinza-72: hwb(38 70% 26%);
+  --salmao-75: hsl(14, 51%, 75%);
+  --salmao-70: hsl(14, 24%, 70%);
+  --branco50-95: hwb(48 94% 4%);
+  --shadow: hsla(0, 0%, 0%, 0.6);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+body {
+  background-color: var(--marrom-25);
+  font-family: "Monteserrat", sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+}
+
+/* Header */
+.header {
+  margin: 10px;
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 700px) {
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.header__text {
+  color: var(--branco50-95);
+  font-size: small;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header_button {
+  margin: 10px;
+  margin-left: auto;
+}
+
+.header__button_login {
+  background-color: var(--cinza-72);
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--marrom-25);
+  border: 1px solid var(--cinza-72);
+  border-radius: 5px;
+}
+
+.header__button_login:hover {
+  border: 1px solid var(--cinza-72);
+  background-color: var(--salmao-75);
+  color: var(--marrom-25);
+  box-shadow: 0 4px 8px rgba(41, 39, 39, 0.486);
+}
+.header__button_login:active {
+  background-color: var(--marrom-25);
+  color: var(--salmao-75);
+  border: 1px solid var(--salmao-75);
+  box-shadow: inset 0 4px 8px var(--shadow);
+}
+
+/* navBar */
+.navBar {
+  background-color: var(--cinza-72);
+  margin: 3px;
+  height: 80px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+/* Links do navbar */
+.navBar_link {
+  margin: 10px;
+  color: var(--marrom-25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 30px;
+  filter: drop-shadow(0 0 1px var(--shadow));
+}
+
+.navBar_link_text {
+  padding: 5px;
+  font-size: 12px;
+}
