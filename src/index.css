@@ -106,8 +106,9 @@ img {
 /* navBar */
 .navBar {
   background-color: var(--cinza-72);
-  margin: 3px;
+  width: auto;
   height: 80px;
+  margin: 3px;
   border-radius: 5px;
   display: flex;
   align-items: center;

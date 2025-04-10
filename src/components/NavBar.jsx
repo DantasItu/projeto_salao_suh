@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
 import { faMapLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { faSquareInstagram } from "@fortawesome/free-brands-svg-icons";
 
 const Navbar = () => {
   return (
@@ -19,6 +20,14 @@ const Navbar = () => {
         >
           <FontAwesomeIcon icon={faMapLocationDot} />
           <p className="navBar_link_text">Local</p>
+        </Link>
+        <Link
+          to="https://www.instagram.com/suelen_bzr/"
+          className="navBar_link"
+          target="_blank"
+        >
+          <FontAwesomeIcon icon={faSquareInstagram} />
+          <p className="navBar_link_text">Instagram</p>
         </Link>
       </div>
     </>
