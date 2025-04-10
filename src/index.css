@@ -70,15 +70,17 @@ img {
 
 .header_button {
   margin: 10px;
+  padding: 5px;
   margin-left: auto;
 }
 
 .header__button_login {
+  padding: 5px;
   background-color: var(--cinza-72);
   font-family: Arial, Helvetica, sans-serif;
   color: var(--marrom-25);
   border: 1px solid var(--cinza-72);
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 .header__button_login:hover {
