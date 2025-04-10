@@ -108,6 +108,7 @@ img {
 /* Links do navbar */
 .navBar_link {
   margin: 10px;
+  padding: 5px;
   color: var(--marrom-25);
   display: flex;
   flex-direction: column;
@@ -116,6 +117,19 @@ img {
   filter: drop-shadow(0 0 1px var(--shadow));
 }
 
+.navBar_link:hover {
+  background-color: var(--salmao-75);
+  color: var(--marrom-25);
+  box-shadow: 0 4px 8px rgba(41, 39, 39, 0.486);
+  border-radius: 2px;
+}
+
+.navBar_link:active {
+  background-color: var(--marrom-25);
+  color: var(--salmao-75);
+  border: 1px solid var(--salmao-75);
+  box-shadow: inset 0 4px 8px var(--shadow);
+}
 .navBar_link_text {
   padding: 5px;
   font-size: 12px;
