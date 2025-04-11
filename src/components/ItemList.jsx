@@ -1,15 +1,21 @@
 import React from "react";
 import SingleItem from "./SingleItem";
 
-const ItemList = ({ itemsArrays }) => {
+const ItemList = ({ itemsArrays, divStyle, items }) => {
   return (
     <>
       <div className="itemList_container">
         <div className="Lista de serviços">
           {itemsArrays
             .filter((curr) => curr.role === "services")
-            .map((currObj) => (
-              <SingleItem {...currObj} key={currObj.id} />
+            .filter((curr, index) => index < items)
+            .map((currObj, index) => (
+              <SingleItem
+                {...currObj}
+                key={currObj.id}
+                divStyle={divStyle}
+                index={index}
+              />
             ))}
         </div>
       </div>
