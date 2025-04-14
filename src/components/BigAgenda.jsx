@@ -1,63 +1,66 @@
-import React, { useState } from "react";
-import { Calendar, dateFnsLocalizer } from "react-big-calendar";
-import { format, parse, startOfWeek, getDay } from "date-fns";
-import ptBR from "date-fns/locale/pt-BR";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import "./BigAgenda.css";
+import React, { useState, useEffect } from "react"; // Importa React e os hooks useState e useEffect
+import { Calendar, dateFnsLocalizer } from "react-big-calendar"; // Importa o componente de calendário
+import { format, parse, startOfWeek, getDay } from "date-fns"; // Funções para manipulação de datas
+import ptBR from "date-fns/locale/pt-BR"; // Localização em português do Brasil
+import "react-big-calendar/lib/css/react-big-calendar.css"; // Estilos do calendário
+import "./BigAgenda.css"; // Estilos personalizados
+import { appointments } from "../data/dataBase/Appointments"; // Importa os agendamentos do banco de dados
 
-const locales = {
-  "pt-BR": ptBR,
-};
-
+// Configura o localizador de datas para o calendário
+const locales = { "pt-BR": ptBR };
 const localizer = dateFnsLocalizer({
-  format,
-  parse,
-  startOfWeek,
-  getDay,
-  locales,
+  format, // Função para formatar datas
+  parse, // Função para analisar strings de datas
+  startOfWeek, // Define o início da semana
+  getDay, // Obtém o dia da semana
+  locales, // Localização configurada
 });
 
 const BigAgenda = () => {
-  const [events, setEvents] = useState([
-    {
-      title: "Reunião de equipe",
-      start: new Date(2025, 3, 11, 10, 0), // 11 de abril de 2025, 10:00
-      end: new Date(2025, 3, 11, 10, 30), // 11 de abril de 2025, 11:00
-    },
-    {
-      title: "Consulta médica",
-      start: new Date(2025, 3, 12, 14, 0), // 12 de abril de 2025, 14:00
-      end: new Date(2025, 3, 12, 15, 0), // 12 de abril de 2025, 15:00
-    },
-  ]);
-
-  const [currentView, setCurrentView] = useState("month"); // Estado para a visualização atual
+  // ==========================
+  // Estados do componente
+  // ==========================
+  const [events, setEvents] = useState([...appointments]); // Inicializa os eventos com os dados do banco de dados
+  const [currentView, setCurrentView] = useState("month"); // Estado para a visualização atual (mês, semana, etc.)
   const [currentDate, setCurrentDate] = useState(new Date()); // Estado para a data atual
   const [showModal, setShowModal] = useState(false); // Controla a exibição do modal
-  const [availableTimes, setAvailableTimes] = useState([]); // Horários disponíveis
-  const [selectedSlot, setSelectedSlot] = useState(null); // Slot selecionado
+  const [availableTimes, setAvailableTimes] = useState([]); // Horários disponíveis para agendamento
+  const [selectedSlot, setSelectedSlot] = useState(null); // Slot selecionado no calendário
   const [newEventTitle, setNewEventTitle] = useState(""); // Título do novo evento
-  const [selectedTime, setSelectedTime] = useState(null); // Horário selecionado
-  const [eventDuration, setEventDuration] = useState(30); // Duração do evento
-  const [eventDurationHours, setEventDurationHours] = useState(0); // Duração em horas
-  const [eventDurationMinutes, setEventDurationMinutes] = useState(30); // Duração em minutos
+  const [selectedTime, setSelectedTime] = useState(null); // Horário selecionado no modal
+  const [eventDurationHours, setEventDurationHours] = useState(); // Duração do evento em horas
+  const [eventDurationMinutes, setEventDurationMinutes] = useState(0); // Duração do evento em minutos
 
+  // ==========================
+  // Atualiza os eventos quando o array appointments muda
+  // ==========================
+  useEffect(() => {
+    setEvents([...appointments]); // Sincroniza os eventos com o array appointments
+  }, [appointments]); // Executa sempre que o array appointments mudar
+
+  // ==========================
+  // Funções auxiliares
+  // ==========================
+  // Atualiza a visualização atual do calendário
   const handleViewChange = (view) => {
-    setCurrentView(view);
-    console.log(`Visualização alterada para: ${view}`);
+    setCurrentView(view); // Define a nova visualização
+    console.log(`Visualização alterada para: ${view}`); // Log para depuração
   };
 
-  const handleNavigate = (date, view) => {
-    setCurrentDate(new Date(date)); // Atualiza a data atual
-    console.log(`Navegou para a data: ${date}, na visualização: ${view}`);
+  // Atualiza a data atual ao navegar no calendário
+  const handleNavigate = (date) => {
+    setCurrentDate(new Date(date)); // Define a nova data
+    console.log(`Navegou para a data: ${date}`); // Log para depuração
   };
 
+  // Calcula horários disponíveis para agendamento
   const calculateAvailableTimes = (date) => {
     const startOfDay = new Date(date.setHours(8, 0, 0, 0)); // Início do dia às 08:00
     const endOfDay = new Date(date.setHours(18, 0, 0, 0)); // Fim do dia às 18:00
     const interval = 30; // Intervalo de 30 minutos
     const times = [];
 
+    // Gera horários disponíveis no intervalo de 30 minutos
     for (
       let time = startOfDay;
       time <= endOfDay;
@@ -66,7 +69,7 @@ const BigAgenda = () => {
       times.push(new Date(time));
     }
 
-    // Filtra horários ocupados
+    // Filtra horários que já estão ocupados
     return times.filter((time) => {
       return !events.some(
         (event) =>
@@ -77,79 +80,66 @@ const BigAgenda = () => {
     });
   };
 
+  // Quando um slot é selecionado, calcula horários disponíveis e exibe o modal
   const handleSelectSlot = ({ start }) => {
-    if (currentView === "month" || currentView === "week") {
-      // Verifica se a visualização atual é "month"
-      setSelectedSlot(start); // Define o slot selecionado
-      const times = calculateAvailableTimes(start);
-      setAvailableTimes(times); // Define os horários disponíveis
-      setShowModal(true); // Exibe o modal
-    }
+    setSelectedSlot(start); // Define o slot selecionado
+    const times = calculateAvailableTimes(start); // Calcula horários disponíveis
+    setAvailableTimes(times); // Atualiza os horários disponíveis
+    setShowModal(true); // Exibe o modal
   };
 
+  // Adiciona um novo evento ao calendário
   const handleAddEvent = () => {
     if (selectedSlot && newEventTitle && selectedTime) {
-      const startEvent = selectedTime;
+      const startEvent = selectedTime; // Define o início do evento
       const durationInMilliseconds =
-        eventDurationHours * 60 * 60 * 1000 + eventDurationMinutes * 60 * 1000;
-      const endEvent = new Date(startEvent.getTime() + durationInMilliseconds); // Calcula o horário de término
+        eventDurationHours * 60 * 60 * 1000 + eventDurationMinutes * 60 * 1000; // Calcula a duração do evento
+      const endEvent = new Date(startEvent.getTime() + durationInMilliseconds); // Define o fim do evento
 
-      // Verifica se o evento se sobrepõe a outros eventos
+      // Verifica se o novo evento conflita com eventos existentes
       const hasConflict = events.some(
         (event) =>
-          (startEvent >= event.start && startEvent < event.end) || // Início do novo evento está dentro de outro evento
-          (endEvent > event.start && endEvent <= event.end) || // Fim do novo evento está dentro de outro evento
-          (startEvent <= event.start && endEvent >= event.end) // Novo evento engloba outro evento
+          (startEvent >= event.start && startEvent < event.end) || // Início do evento conflita
+          (endEvent > event.start && endEvent <= event.end) || // Fim do evento conflita
+          (startEvent <= event.start && endEvent >= event.end) // Evento engloba outro evento
       );
 
       if (hasConflict) {
-        alert("O evento se sobrepõe a outro evento existente.");
+        alert("O evento se sobrepõe a outro evento existente."); // Alerta de conflito
         return;
       }
 
-      // Adiciona o evento ao estado
+      // Adiciona o novo evento ao estado
       setEvents((prevEvents) => [
         ...prevEvents,
         { title: newEventTitle, start: startEvent, end: endEvent },
       ]);
 
-      // Recalcula os horários disponíveis
-      const updatedTimes = calculateAvailableTimes(selectedSlot);
-      setAvailableTimes(updatedTimes);
-
-      // Reseta os campos
-      setNewEventTitle("");
-      setSelectedTime(null);
-      setEventDurationHours(0);
-      setEventDurationMinutes(30);
-
-      // Fecha o modal após garantir que o estado foi atualizado
+      // Fecha o modal
       setShowModal(false);
     } else {
-      alert("Por favor, preencha todos os campos corretamente.");
+      alert("Por favor, preencha todos os campos corretamente."); // Alerta de erro
     }
   };
 
+  // ==========================
+  // Renderização do componente
+  // ==========================
   return (
     <div className="big-agenda-container">
       <h1 className="big-agenda-title">Minha Agenda</h1>
-      <p className="big-agenda-info">Visualização atual: {currentView}</p>
-      <p className="big-agenda-info">
-        Data atual: {currentDate.toLocaleDateString("pt-BR")}
-      </p>
-
       <Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        className="big-agenda-calendar"
-        selectable
-        onSelectSlot={handleSelectSlot}
-        onView={handleViewChange}
-        onNavigate={handleNavigate}
-        view={currentView}
-        date={currentDate}
+        localizer={localizer} // Configuração de localização
+        events={events} // Lista de eventos
+        startAccessor="start" // Define o início do evento
+        endAccessor="end" // Define o fim do evento
+        className="big-agenda-calendar" // Classe CSS para estilização
+        selectable // Permite selecionar slots no calendário
+        onSelectSlot={handleSelectSlot} // Ação ao selecionar um slot
+        onView={handleViewChange} // Ação ao mudar a visualização
+        onNavigate={handleNavigate} // Ação ao navegar no calendário
+        view={currentView} // Define a visualização atual
+        date={currentDate} // Define a data atual
         messages={{
           next: "Próximo",
           previous: "Anterior",
@@ -162,62 +152,75 @@ const BigAgenda = () => {
         }}
       />
 
-      {showModal && (
+      {showModal && ( // Renderiza o modal apenas se showModal for true
         <div className="big-agenda-modal">
-          <h3>Selecione um horário disponível</h3>
+          {" "}
+          {/* Container principal do modal */}
+          <h3>Selecione um horário disponível</h3> {/* Título do modal */}
+          {/* Lista de horários disponíveis */}
           <div>
-            {availableTimes.map((time) => (
-              <button
-                key={time}
-                onClick={() => setSelectedTime(time)}
-                className={`big-agenda-time-button ${
-                  selectedTime === time ? "selected" : ""
-                }`}
-              >
-                {format(time, "HH:mm")}
-              </button>
-            ))}
+            {availableTimes.map(
+              (
+                time // Mapeia os horários disponíveis para criar botões
+              ) => (
+                <button
+                  key={time} // Define uma chave única para cada botão
+                  onClick={() => setSelectedTime(time)} // Define o horário selecionado ao clicar no botão
+                  className={`big-agenda-time-button ${
+                    selectedTime === time ? "selected" : "" // Aplica a classe "selected" se o horário for o selecionado
+                  }`}
+                >
+                  {format(time, "HH:mm")}{" "}
+                  {/* Exibe o horário formatado no botão */}
+                </button>
+              )
+            )}
           </div>
+          {/* Campo de entrada para o título do evento */}
           <input
             type="text"
-            value={newEventTitle}
-            onChange={(e) => setNewEventTitle(e.target.value)}
-            placeholder="Digite o título do evento"
-            className="big-agenda-input"
+            value={newEventTitle} // Valor atual do título do evento
+            onChange={(e) => setNewEventTitle(e.target.value)} // Atualiza o título ao digitar
+            placeholder="Digite o título do evento" // Placeholder do campo
+            className="big-agenda-input" // Classe CSS para estilização
           />
+          {/* Campo para definir a duração em horas */}
           <div>
             <label>
               Duração (Horas):
               <input
                 type="number"
-                value={eventDurationHours}
-                onChange={(e) => setEventDurationHours(Number(e.target.value))}
-                className="big-agenda-input"
+                value={eventDurationHours} // Valor atual da duração em horas
+                onChange={(e) => setEventDurationHours(Number(e.target.value))} // Atualiza a duração ao digitar
+                className="big-agenda-input" // Classe CSS para estilização
               />
             </label>
           </div>
+          {/* Campo para definir a duração em minutos */}
           <div>
             <label>
               Duração (Minutos):
               <input
                 type="number"
-                value={eventDurationMinutes}
-                onChange={(e) =>
-                  setEventDurationMinutes(Number(e.target.value))
+                value={eventDurationMinutes} // Valor atual da duração em minutos
+                onChange={
+                  (e) => setEventDurationMinutes(Number(e.target.value)) // Atualiza a duração ao digitar
                 }
-                className="big-agenda-input"
+                className="big-agenda-input" // Classe CSS para estilização
               />
             </label>
           </div>
+          {/* Botão para adicionar o evento */}
           <button
-            onClick={handleAddEvent}
-            className="big-agenda-modal-button add"
+            onClick={handleAddEvent} // Chama a função handleAddEvent ao clicar
+            className="big-agenda-modal-button add" // Classe CSS para estilização
           >
             Adicionar Evento
           </button>
+          {/* Botão para cancelar e fechar o modal */}
           <button
-            onClick={() => setShowModal(false)}
-            className="big-agenda-modal-button cancel"
+            onClick={() => setShowModal(false)} // Fecha o modal ao clicar
+            className="big-agenda-modal-button cancel" // Classe CSS para estilização
           >
             Cancelar
           </button>
@@ -227,4 +230,4 @@ const BigAgenda = () => {
   );
 };
 
-export default BigAgenda;
+export default BigAgenda; // Exporta o componente
