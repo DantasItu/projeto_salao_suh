@@ -2,21 +2,24 @@ import React, { useState, useEffect } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import { format, parse, startOfWeek, getDay } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
-import "react-big-calendar/lib/css/react-big-calendar.css";
 import { appointments } from "../data/dataBase/Appointments";
 import { height } from "@fortawesome/free-brands-svg-icons/fa42Group";
 import { months } from "moment/moment";
+import "../data/styles/Calendario.css";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 
 //\\=============================//\\
 //\\ Definições de Localização //\\
 // \\=========================//\\
-const locales = { "pt-BR": ptBR };
+const customFormat = (date, formatStr, options) => {
+  return format(date, formatStr, { ...options, locale: ptBR });
+};
 const localizer = dateFnsLocalizer({
-  format, // Função para formatar datas
-  parse, // Função para analisar strings de datas
-  startOfWeek, // Define o início da semana
-  getDay, // Obtém o dia da semana
-  locales, // Localização configurada
+  format: customFormat,
+  parse,
+  startOfWeek,
+  getDay,
+  locales: { "pt-BR": ptBR },
 });
 
 const Calendario = () => {
@@ -46,37 +49,42 @@ const Calendario = () => {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
-      <Calendar
-        localizer={localizer}
-        events={events}
-        selectable
-        view={currentView}
-        style={{ height: 800, width: "80%", margin: 10 }}
-        onView={handleViewChange}
-        onNavigate={handleNaveChange}
-        date={currentDate}
-        messages={{
-          next: "Proximo",
-          previous: "Anterior",
-          today: "Hoje",
-          month: "Mês",
-          week: "Semana",
-          day: "Dia",
-          noEventsInRange: "Não há eventos neste periodo",
-          allDay: "Dia todo",
-          date: "Data",
-          time: "Hora",
-          event: "Evento",
-          showMore: (total) => `mais ${total} eventos`,
-          agenda: "Agenda",
-          view: "Visualização",
-          allEvents: "Todos os eventos",
-          allDayEvent: "Evento de dia todo",
-          delete: "Deletar",
-        }}
-      />
-    </div>
+    <>
+      <div className="calendario-container">
+        <Calendar
+          localizer={localizer}
+          events={events}
+          selectable
+          view={currentView}
+          onView={handleViewChange}
+          onNavigate={handleNaveChange}
+          className="calendario"
+          date={currentDate}
+          // components={{
+          //   toolbar: CustomToolbar,
+
+          messages={{
+            next: "Proximo",
+            previous: "Anterior",
+            today: "Hoje",
+            month: "Mês",
+            week: "Semana",
+            day: "Dia",
+            noEventsInRange: "Não há eventos neste periodo",
+            allDay: "Dia todo",
+            date: "Data",
+            time: "Hora",
+            event: "Evento",
+            showMore: (total) => `mais ${total} eventos`,
+            agenda: "Agenda",
+            view: "Visualização",
+            allEvents: "Todos os eventos",
+            allDayEvent: "Evento de dia todo",
+            delete: "Deletar",
+          }}
+        />
+      </div>
+    </>
   );
 };
 

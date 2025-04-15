@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react"; // Importa React e os hooks 
 import { Calendar, dateFnsLocalizer } from "react-big-calendar"; // Importa o componente de calendário
 import { format, parse, startOfWeek, getDay } from "date-fns"; // Funções para manipulação de datas
 import ptBR from "date-fns/locale/pt-BR"; // Localização em português do Brasil
+import { appointments } from "../src/data/dataBase/Appointments"; // Importa os agendamentos do banco de dados
 import "react-big-calendar/lib/css/react-big-calendar.css"; // Estilos do calendário
-import "./BigAgenda.css"; // Estilos personalizados
-import { appointments } from "../data/dataBase/Appointments"; // Importa os agendamentos do banco de dados
 
 // Configura o localizador de datas para o calendário
 const locales = { "pt-BR": ptBR };
@@ -126,7 +125,7 @@ const BigAgenda = () => {
   // Renderização do componente
   // ==========================
   return (
-    <div className="big-agenda-container">
+    <div className="big-agenda-container" style={{ height: 800 }}>
       <h1 className="big-agenda-title">Minha Agenda</h1>
       <Calendar
         localizer={localizer} // Configuração de localização
