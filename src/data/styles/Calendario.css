@@ -1,3 +1,15 @@
+:root {
+  --marrom-25: hsl(25, 9%, 25%);
+  --marrom-10: hsl(25, 9%, 10%);
+  --cinza-72: hwb(38 70% 26%);
+  --salmao-75: hsl(14, 51%, 75%);
+  --salmao-70: hsl(14, 24%, 70%);
+  --branco50-95: hwb(48 94% 4%);
+  --shadow: hsla(0, 0%, 0%, 0.6);
+
+  --fontSizeHeader: 90%;
+}
+
 /* calendario */
 .calendario-container {
   height: 600px;
@@ -9,8 +21,103 @@
   box-shadow: 0 4px 8px var(--shadow);
 }
 
+@media screen and (max-width: 700px) {
+  .calendario-container {
+    height: 300px;
+  }
+}
+
 /* calendar */
 .rbc-toolbar {
-  display: flex;
   background-color: var(--salmao-75);
+  padding: 5px;
+  margin: 2px;
+  border-radius: 10px 10px 0 0;
+  color: var(--branco50-95);
+}
+
+@media screen and (max-width: 700px) {
+  .rbc-toolbar {
+    height: 90px;
+    font-size: 20px;
+  }
+  .rbc-toolbar button {
+    padding: 2px 8px;
+    font-size: 12px;
+  }
+  .rbc-toolbar-label {
+    padding: 5px 10px;
+  }
+}
+
+.rbc-btn-group button {
+  color: var(--branco50-95);
+  border: 1px solid var(--cinza-72);
+}
+
+button.rbc-active {
+  color: var(--marrom-25);
+}
+
+.rbc-month-header {
+  padding: 10px;
+  background-color: var(--salmao-75);
+  color: var(--marrom-25);
+}
+
+@media screen and (max-width: 700px) {
+  .rbc-month-header {
+    padding: 5px;
+  }
+}
+
+.rbc-header {
+  padding: 10px;
+  font-size: 90%;
+}
+
+@media screen and (max-width: 700px) {
+  .rbc-header {
+    padding: 0;
+    font-size: 8px;
+  }
+}
+
+.rbc-today {
+  background-color: hsl(14, 51%, 85%);
+}
+
+.rbc-event {
+  width: 96%;
+  background-color: var(--marrom-25);
+}
+
+@media screen and (max-width: 700px) {
+  .rbc-event {
+    height: 50%;
+  }
+  .rbc-row-segment {
+    height: 10%;
+    font-size: 8px;
+    margin: 1px 0;
+  }
+}
+
+.rbc-show-more {
+  --_line: 0;
+  background-color: transparent;
+  width: 95%;
+  margin: 2px;
+  padding: 2px;
+  display: -webkit-box;
+  -webkit-line-clamp: var(--_line);
+  line-clamp: var(--_line);
+  -webkit-box-orient: vertical;
+  box-orient: vertical;
+  overflow: hidden;
+}
+
+.rbc-off-range-bg {
+  color: var(--branco50-95);
+  background-color: var(--cinza-72);
 }

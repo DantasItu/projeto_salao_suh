@@ -185,7 +185,7 @@ input {
 }
 @media screen and (max-width: 700px) {
   .listService_singleItem {
-    height: 56px;
+    height: 80px;
     margin: 5px;
     padding: 2px;
     color: var(--marrom-25);
@@ -200,8 +200,8 @@ input {
 }
 @media screen and (max-width: 700px) {
   .listService_singleItem_image {
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
   }
 }
 
@@ -292,7 +292,7 @@ input {
   margin: 5px 15px 15px 15px;
   padding: 5px;
   color: var(--marrom-10);
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .listService__navItems:hover {

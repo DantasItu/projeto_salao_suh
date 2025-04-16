@@ -3,7 +3,7 @@ import { Calendar, dateFnsLocalizer } from "react-big-calendar"; // Importa o co
 import { format, parse, startOfWeek, getDay } from "date-fns"; // Funções para manipulação de datas
 import ptBR from "date-fns/locale/pt-BR"; // Localização em português do Brasil
 import { appointments } from "../src/data/dataBase/Appointments"; // Importa os agendamentos do banco de dados
-import "react-big-calendar/lib/css/react-big-calendar.css"; // Estilos do calendário
+// import "react-big-calendar/lib/css/react-big-calendar.css"; // Estilos do calendário
 
 // Configura o localizador de datas para o calendário
 const locales = { "pt-BR": ptBR };

@@ -5,8 +5,8 @@ import ptBR from "date-fns/locale/pt-BR";
 import { appointments } from "../data/dataBase/Appointments";
 import { height } from "@fortawesome/free-brands-svg-icons/fa42Group";
 import { months } from "moment/moment";
-import "../data/styles/Calendario.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import "../data/styles/Calendario.css";
 
 //\\=============================//\\
 //\\ Definições de Localização //\\
@@ -25,7 +25,7 @@ const localizer = dateFnsLocalizer({
 const Calendario = () => {
   useEffect(() => {
     setEvents([...appointments]);
-  }, [appointments]); // execulta sempre que ouver alterações no bando de dados
+  }, [appointments]); // execulta sempre que ouver alterações no banco de dados
 
   //              ----//--------      //
 
@@ -60,9 +60,6 @@ const Calendario = () => {
           onNavigate={handleNaveChange}
           className="calendario"
           date={currentDate}
-          // components={{
-          //   toolbar: CustomToolbar,
-
           messages={{
             next: "Proximo",
             previous: "Anterior",
