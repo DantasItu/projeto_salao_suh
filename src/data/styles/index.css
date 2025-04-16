@@ -14,6 +14,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
   background-color: var(--branco50-95);
   font-family: "Monteserrat", sans-serif;
@@ -104,6 +105,7 @@ input {
   color: var(--marrom-25);
   box-shadow: 0 4px 8px rgba(41, 39, 39, 0.486);
 }
+
 .header__button_login:active {
   background-color: var(--marrom-25);
   color: var(--salmao-75);
@@ -149,6 +151,7 @@ input {
   border: 1px solid var(--salmao-75);
   box-shadow: inset 0 4px 8px var(--shadow);
 }
+
 .navBar_link_text {
   padding: 5px;
   font-size: 10px;
@@ -159,7 +162,9 @@ input {
   width: 100%;
   font-size: 10px;
   margin-top: 20px;
+  color: var(--marrom-25);
 }
+
 .listService_title {
   padding: 10px;
 }
@@ -169,11 +174,13 @@ input {
   background-color: var(--cinza-72);
   width: 100%;
   height: 30px;
+  box-shadow: 0px 2px 2px var(--shadow);
 }
 
 .listService_searchBar_input {
   width: 100%;
 }
+
 /* list Service */
 
 .listService_singleItem {
@@ -185,7 +192,9 @@ input {
   display: flex;
   align-items: center;
   border-radius: 5px;
+  box-shadow: 0 2px 2px var(--shadow);
 }
+
 @media screen and (max-width: 700px) {
   .listService_singleItem {
     height: 80px;
@@ -201,6 +210,7 @@ input {
   border-radius: 5px;
   margin: 2px;
 }
+
 @media screen and (max-width: 700px) {
   .listService_singleItem_image {
     width: 70px;

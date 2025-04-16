@@ -60,6 +60,7 @@ const Calendario = () => {
           onNavigate={handleNaveChange}
           className="calendario"
           date={currentDate}
+          //         onSelectEvent sinal disparado quando selecionamos um evento, para isso deveremos desenvolver uma função
           messages={{
             next: "Proximo",
             previous: "Anterior",

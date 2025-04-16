@@ -13,7 +13,7 @@
 /* calendario */
 .calendario-container {
   height: 600px;
-  width: 85%;
+  width: 90%;
   margin: 10px auto;
   padding: 5px;
   border: 1px solid var(--branco50-95);
@@ -24,6 +24,7 @@
 @media screen and (max-width: 700px) {
   .calendario-container {
     height: 400px;
+    width: 95%;
   }
 }
 
@@ -41,10 +42,12 @@
     height: 90px;
     font-size: 20px;
   }
+
   .rbc-toolbar button {
     padding: 2px 8px;
     font-size: 12px;
   }
+
   .rbc-toolbar-label {
     padding: 5px 10px;
   }
@@ -98,6 +101,7 @@ button.rbc-active {
   .rbc-event {
     height: 50%;
   }
+
   .rbc-row-segment {
     height: 10%;
     font-size: 8px;
@@ -138,7 +142,12 @@ button.rbc-active {
     padding-right: 5px;
     text-transform: lowercase;
   }
-  .rbc-agenda-view table.rbc-agenda-table tbody > tr > td {
+
+  .rbc-day-slot .rbc-event {
+    font-size: 8px;
+  }
+
+  .rbc-agenda-view table.rbc-agenda-table tbody>tr>td {
     font-size: 10px;
     background-color: hsl(14, 51%, 85%);
   }

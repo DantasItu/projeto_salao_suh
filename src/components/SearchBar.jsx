@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SingleItem from "./SingleItem";
 
-const SearchBar = ({ searchBarItem, divStyle }) => {
+const SearchBar = ({ searchBarItem, divStyle, text }) => {
   const [searchTerm, setSearchTerm] = useState(""); // Controla o termo de pesquisa
 
   // Filtra os itens com base no termo de pesquisa
@@ -14,7 +14,7 @@ const SearchBar = ({ searchBarItem, divStyle }) => {
       <input
         className={divStyle}
         type="text"
-        placeholder="Pesquisar serviços..."
+        placeholder={text}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
