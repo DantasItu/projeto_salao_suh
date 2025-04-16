@@ -59,6 +59,8 @@ button.rbc-active {
   color: var(--marrom-25);
 }
 
+/* aba mesês  */
+
 .rbc-month-header {
   padding: 10px;
   background-color: var(--salmao-75);
@@ -120,4 +122,24 @@ button.rbc-active {
 .rbc-off-range-bg {
   color: var(--branco50-95);
   background-color: var(--cinza-72);
+}
+
+/* Aba dias  */
+
+.rbc-day-slot .rbc-event {
+  border: 1px solid var(--branco50-95);
+}
+
+/* Agenda */
+@media screen and (max-width: 700px) {
+  .rbc-agenda-view table.rbc-agenda-table .rbc-agenda-time-cell {
+    padding-left: 5px;
+    background-color: var(--cinza-72);
+    padding-right: 5px;
+    text-transform: lowercase;
+  }
+  .rbc-agenda-view table.rbc-agenda-table tbody > tr > td {
+    font-size: 10px;
+    background-color: hsl(14, 51%, 85%);
+  }
 }
