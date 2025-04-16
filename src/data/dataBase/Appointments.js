@@ -196,8 +196,8 @@ export const appointments = [
     serviceId: 1,
     clientId: 10,
     professionalId: 4,
-    start: new Date(2025, 3, 1, 8, 0),
-    end: new Date(2025, 3, 1, 19, 30),
+    start: new Date(2025, 3, 18, 8, 0),
+    end: new Date(2025, 3, 18, 19, 30),
   },
   // Continue adicionando mais agendamentos seguindo o mesmo padrão...
 ];
