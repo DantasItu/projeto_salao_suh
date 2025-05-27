@@ -40,3 +40,35 @@ export const registerClient = async (req, res) => {
       .json({ message: "Erro ao registrar usuário", error: err.message });
   }
 };
+
+export const registerProficional = async (req, res) => {
+  try {
+    const { name, phone, email, password, role } = req.body;
+    // Verifica se todos os campos obrigatórios foram preenchidos
+    if (!name || !phone || !email || !password || !role) {
+      return res.status(400).json({ message: "Preencha todos os campos" });
+    }
+    // Verifica se o email já está cadastrado
+    const userExists = await User.findOne({ email });
+    if (userExists)
+      return res.status(400).json({ message: "Usuario já existe!" });
+
+    // Criptografa a senha
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // criar usuario profissicional
+    const user = User.create({
+      name,
+      phone,
+      email,
+      password: hashedPassword,
+      role,
+      type: "proficional",
+    });
+  } catch (err) {
+    // mesagem de erro
+    res
+      .status(500)
+      .json({ message: "Erro ao registrar Usuario", error: err.message });
+  }
+};

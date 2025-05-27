@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm install --prefix Backend &&  npm install --prefix Front" 
+    "start": "npm install --prefix Backend &&  npm install --prefix Front"
   },
   "repository": {
     "type": "git",
@@ -17,5 +17,6 @@
     "url": "https://github.com/DantasItu/projeto_salao_suh/issues"
   },
   "homepage": "https://github.com/DantasItu/projeto_salao_suh#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {}
 }
