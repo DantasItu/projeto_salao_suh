@@ -5,7 +5,16 @@ const userSchema = new mongoose.Schema({
   phone: { type: Number, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  type: "cliente",
+  Role: {
+    type: String,
+    enum: ["cabeleireira", "barbeiro", "manicure", "maquiadora", "maquiador"],
+    default: "",
+  },
+  type: {
+    type: String,
+    enum: ["cliente", "proficional", "admin"],
+    default: "cliente",
+  },
 });
 
-export default mongoose.model("UserClient", useSchema);
+export default mongoose.model("User", userSchema);

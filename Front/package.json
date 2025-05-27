@@ -17,6 +17,7 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "date-fns": "^4.1.0",
     "moment": "^2.30.1",
+    "projeto_salao_suh": "file:..",
     "react": "^19.0.0",
     "react-big-calendar": "^1.18.0",
     "react-calendar": "^5.1.0",
