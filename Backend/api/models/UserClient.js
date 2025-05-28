@@ -5,10 +5,17 @@ const userSchema = new mongoose.Schema({
   phone: { type: Number, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  Role: {
+  role: {
     type: String,
-    enum: ["cabeleireira", "barbeiro", "manicure", "maquiadora", "maquiador"],
-    default: "",
+    enum: [
+      "cabeleireira",
+      "barbeiro",
+      "manicure",
+      "maquiadora",
+      "maquiador",
+      "ti",
+    ],
+    default: null,
   },
   type: {
     type: String,
