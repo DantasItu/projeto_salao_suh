@@ -15,6 +15,7 @@ const ItemList = ({ itemsArrays, divStyle, items, typeItems }) => {
                 key={currObj.id}
                 divStyle={divStyle}
                 index={index}
+                view_button={true}
               />
             ))}
         </div>

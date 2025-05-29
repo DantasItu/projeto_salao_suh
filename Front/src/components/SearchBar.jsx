@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SingleItem from "./SingleItem";
 
-const SearchBar = ({ searchBarItem, divStyle, text }) => {
+const SearchBar = ({ searchBarItem, divStyle, text, view_button }) => {
   const [searchTerm, setSearchTerm] = useState(""); // Controla o termo de pesquisa
 
   // Filtra os itens com base no termo de pesquisa
@@ -26,7 +26,11 @@ const SearchBar = ({ searchBarItem, divStyle, text }) => {
           <ul className={`${divStyle}_result`}>
             {filteredItems.map((currObj) => (
               <li key={currObj.id}>
-                <SingleItem {...currObj} divStyle={"listService_singleItem"} />
+                <SingleItem
+                  {...currObj}
+                  divStyle={"listService_singleItem"}
+                  view_button={view_button}
+                />
               </li>
             ))}
           </ul>

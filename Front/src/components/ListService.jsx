@@ -15,6 +15,7 @@ const ListService = () => {
             searchBarItem={servicesArray}
             divStyle="listService_searchBar_input"
             text="Digite qual serviço você procura..."
+            view_button={true}
           />
         </div>
 
