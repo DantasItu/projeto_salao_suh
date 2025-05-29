@@ -13,6 +13,7 @@ const SearchBar = ({ searchBarItem, divStyle, text }) => {
     <>
       <input
         className={divStyle}
+        style={{ position: "relative", width: "200px" }}
         type="text"
         placeholder={text}
         value={searchTerm}
@@ -22,10 +23,10 @@ const SearchBar = ({ searchBarItem, divStyle, text }) => {
       <br />
       <ul>
         {searchTerm && ( // Exibe a lista apenas se houver texto na barra de pesquisa
-          <ul>
+          <ul className={`${divStyle}_result`}>
             {filteredItems.map((currObj) => (
               <li key={currObj.id}>
-                <SingleItem {...currObj} />
+                <SingleItem {...currObj} divStyle={"listService_singleItem"} />
               </li>
             ))}
           </ul>

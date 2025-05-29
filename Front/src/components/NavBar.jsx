@@ -23,16 +23,21 @@ const Navbar = () => {
           <p className="navBar_link_text">Local</p>
         </Link>
         <Link
-          to="https://www.instagram.com/suelen_bzr/"
+          to="https://www.instagram.com/suelen_bzrra/"
           className="navBar_link"
           target="_blank"
         >
           <FontAwesomeIcon icon={faSquareInstagram} />
           <p className="navBar_link_text">Instagram</p>
         </Link>
-        <Link to="https://wa.me/+5515997193510" className="navBar_link" target="_blank">
+        <Link
+          to="https://wa.me/+5515997193510"
+          className="navBar_link"
+          target="_blank"
+        >
           <FontAwesomeIcon icon={faWhatsapp} />
-          <p className="navBar_link_text">Whatsapp</p></Link>
+          <p className="navBar_link_text">Whatsapp</p>
+        </Link>
       </div>
     </>
   );

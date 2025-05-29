@@ -17,8 +17,10 @@ const ListService = () => {
             text="Digite qual serviço você procura..."
           />
         </div>
+
         <ItemList
           itemsArrays={servicesArray}
+          typeItems="services"
           divStyle="listService_singleItem"
           items={items}
         />

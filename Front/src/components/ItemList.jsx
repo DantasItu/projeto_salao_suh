@@ -1,13 +1,13 @@
 import React from "react";
 import SingleItem from "./SingleItem";
 
-const ItemList = ({ itemsArrays, divStyle, items }) => {
+const ItemList = ({ itemsArrays, divStyle, items, typeItems }) => {
   return (
     <>
       <div className="itemList_container">
         <div className="Lista de serviços">
           {itemsArrays
-            .filter((curr) => curr.role === "services")
+            .filter((curr) => curr.role === `${typeItems}`)
             .filter((curr, index) => index < items)
             .map((currObj, index) => (
               <SingleItem
