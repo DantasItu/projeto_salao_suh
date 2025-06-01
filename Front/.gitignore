@@ -25,3 +25,4 @@ dist-ssr
 
 # arquivos que não quero subir tbm
 notas.jsx
+.env
