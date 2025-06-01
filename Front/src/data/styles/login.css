@@ -1,0 +1,84 @@
+.body_login {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--salmao-70);
+  font-family: "Monteserrat", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login {
+  margin: auto;
+  border-radius: 10px;
+  padding: 50px 50px;
+  background-color: var(--salmao-75);
+  box-shadow: 0 8px 12px rgba(41, 39, 39, 0.486);
+}
+@media screen and (max-width: 600px) {
+  .login {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 30px 20px;
+  }
+}
+
+.caixa_login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.box_login_imput {
+  margin: 0 0 10px 0;
+  padding: 10px;
+  width: 500px;
+  height: 50px;
+  background-color: var(--marrom-25);
+  color: var(--branco50-95);
+  font-size: 16px;
+  border-radius: 30px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@media screen and (max-width: 600px) {
+  .box_login_imput {
+    width: 300px;
+    height: 50px;
+  }
+
+  @media screen and (max-width: 360px) {
+    .box_login_imput {
+      width: 250px;
+    }
+  }
+}
+.login_logo {
+  width: 250px;
+  margin-bottom: 5px;
+}
+
+.login_anuciado {
+  display: flex;
+  margin: 0 0 20px 0;
+  align-items: center;
+  flex-direction: column;
+  color: var(--marrom-25);
+}
+
+.box_login_button {
+  padding: 10px;
+  background-color: var(--cinza-72);
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--marrom-25);
+  border: 1px solid var(--cinza-72);
+  border-radius: 10px;
+  box-shadow: 0 2px 2px rgba(41, 39, 39, 0.486);
+}
+
+.box_login_button:hover {
+  border: 1px solid var(--cinza-72);
+  background-color: var(--salmao-75);
+  color: var(--marrom-25);
+  box-shadow: 0 4px 8px rgba(41, 39, 39, 0.486);
+}
