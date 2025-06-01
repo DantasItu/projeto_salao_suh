@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { loginApi } from "../Api/authServices.js";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 import logo from "../data/icon/logo redondo.png";
+import { getUserType } from "../utilities/authenticators.js";
 import "../data/styles/login.css";
 
-const Login = () => {
+const LoginPage = () => {
   // funções de status
   const [login, setlogin] = useState("");
   const [password, setPassword] = useState("");
@@ -17,16 +17,15 @@ const Login = () => {
       const { token } = await loginApi(login, password);
       localStorage.setItem("token", token);
 
-      const decoded = jwtDecode(token);
-      const type = decoded.type;
+      const type = getUserType();
 
       navigate(
         type === "admin"
-          ? "/admin"
+          ? "/"
           : type === "cliente"
-          ? "/cliente"
+          ? "/"
           : type === "profissional"
-          ? "/profissional"
+          ? "/"
           : "/"
       );
     } catch (err) {
@@ -36,9 +35,9 @@ const Login = () => {
 
   return (
     <>
-      <div className="body_login">
+      <div className="body_login" onSubmit={statusLogin}>
         <div className="login">
-          <form className="caixa_login" onSubmit={statusLogin}>
+          <form className="caixa_login">
             <img className="login_logo" src={logo} />
             <div className="login_anuciado">
               <h2>Bem Vindo!</h2>
@@ -69,4 +68,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

@@ -8,7 +8,7 @@ export const isAuthenticated = () => {
 
   try {
     const { exp } = jwtDecode(token);
-    return exp > Date.now() / 1000;
+    return exp > Math.floor(Date.now() / 1000);
   } catch {
     return false;
   }
@@ -33,6 +33,18 @@ export const getUserID = () => {
   try {
     const { _id } = jwtDecode(token);
     return _id;
+  } catch {
+    return null;
+  }
+};
+
+export const getUserName = () => {
+  const token = getToken();
+  if (!token) return null;
+
+  try {
+    const { name } = jwtDecode(token);
+    return name;
   } catch {
     return null;
   }

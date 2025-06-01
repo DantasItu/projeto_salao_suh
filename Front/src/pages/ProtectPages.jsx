@@ -2,17 +2,14 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 import { isAuthenticated, getUserType } from "../utilities/authenticators.js";
 
-const ProtectPages = ({ allowedTypes, children }) => {
+const ProtectPages = ({ allowedTypes, redirects = {}, children }) => {
   try {
-    // Se não estiver autenticado ou expirado → manda pra tela de login
-
-    if (!isAuthenticated()) {
-      return <Navigate to="/login" />;
-    }
-    // Se estiver autenticado, mas o tipo não for autorizado → manda pra home
-    const userType = getUserType();
+    const auth = isAuthenticated();
+    // Se estiver autenticado, mas o tipo não for autorizado → manda pra login ou para qual foi determinado no App
+    const userType = auth ? getUserType() : null;
     if (!allowedTypes.includes(userType)) {
-      return <Navigate to="/" />;
+      const redirectTo = redirects[userType] || "/login";
+      return <Navigate to={redirectTo} replace />;
     }
     //  Tudp certo → mostra a página protegida
     return children;

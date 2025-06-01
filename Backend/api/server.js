@@ -26,6 +26,6 @@ app.get("/", (req, res) => {
 
 app.use("/api/users", authUsers);
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server Rodando na porta ${PORT}`);
 });

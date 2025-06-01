@@ -8,7 +8,7 @@ export const login = async (req, res) => {
 
   try {
     // verificar se os campos estão preenchidos
-    if (!password) {
+    if (!login || !password) {
       return res.status(400).json({ message: "Preencha todos os campos" });
     }
 
@@ -21,11 +21,11 @@ export const login = async (req, res) => {
 
     // Verifica se a senha está correta
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(404).json({ message: "Senha incorreta" });
+    if (!isMatch) return res.status(401).json({ message: "Senha incorreta" });
 
     // Gera o token JWT
     const token = jwt.sign(
-      { id: user._id, type: user.type },
+      { _id: user._id, type: user.type, name: user.name },
       process.env.JWT_SECRET,
       {
         expiresIn: "7d",
