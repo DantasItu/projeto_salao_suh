@@ -5,6 +5,7 @@ import logo from "../data/icon/logo redondo.png";
 import { getUserType } from "../utilities/authenticators.js";
 import "../data/styles/login.css";
 
+// pagina e logica de login do front
 const LoginPage = () => {
   // funções de status
   const [login, setlogin] = useState("");

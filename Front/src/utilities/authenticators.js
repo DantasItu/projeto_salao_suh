@@ -1,5 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 
+// verifica se o token é valido e divide as informações do token para serem requisitadas em outros componentes
+
 export const getToken = () => localStorage.getItem("token");
 
 export const isAuthenticated = () => {

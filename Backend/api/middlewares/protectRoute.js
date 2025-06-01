@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 
+// verifica se o token é valido e o type registrado nele caso precise restrigir alguma pagina.
 const protectRoute = (...allowedTypes) => {
   return (req, res, next) => {
     const authHeader = req.headers.authorization;

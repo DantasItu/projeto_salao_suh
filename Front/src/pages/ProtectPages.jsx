@@ -2,6 +2,7 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 import { isAuthenticated, getUserType } from "../utilities/authenticators.js";
 
+// controle para proteger as rotas do front
 const ProtectPages = ({ allowedTypes, redirects = {}, children }) => {
   try {
     const auth = isAuthenticated();
