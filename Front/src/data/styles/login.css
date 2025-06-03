@@ -15,6 +15,7 @@
   background-color: var(--salmao-75);
   box-shadow: 0 8px 12px rgba(41, 39, 39, 0.486);
 }
+
 @media screen and (max-width: 600px) {
   .login {
     margin-left: 10px;
@@ -41,21 +42,45 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 700px) {
   .box_login_imput {
     width: 300px;
     height: 50px;
   }
+}
 
-  @media screen and (max-width: 360px) {
-    .box_login_imput {
-      width: 250px;
-    }
+@media screen and (max-width: 360px) {
+  .box_login_imput {
+    width: 250px;
+    height: 50px;
   }
 }
+
+
+
+@media screen and (max-height: 700px) {
+  .box_login_imput {
+    width: 280px;
+    height: 50px;
+  }
+}
+
 .login_logo {
   width: 250px;
   margin-bottom: 5px;
+}
+
+@media screen and (max-height: 900px) {
+  .login_logo {
+    width: 200px;
+  }
+
+}
+
+@media screen and (max-width: 370px) {
+  .login_logo {
+    width: 150px;
+  }
 }
 
 .login_anuciado {

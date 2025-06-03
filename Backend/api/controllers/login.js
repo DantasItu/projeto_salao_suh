@@ -37,6 +37,6 @@ export const login = async (req, res) => {
   } catch (err) {
     res
       .status(500)
-      .json({ message: "Erro ao criar Secao", error: err.massage });
+      .json({ message: "Erro ao criar Seção", error: err.massage });
   }
 };
