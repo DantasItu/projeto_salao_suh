@@ -8,7 +8,7 @@ const ItemList = ({ itemsArrays, divStyle, items, typeItems }) => {
         <div className="Lista de serviços">
           {itemsArrays
             .filter((curr) => curr.role === `${typeItems}`)
-            .filter((curr, index) => index < items)
+            .slice(0, items)
             .map((currObj, index) => (
               <SingleItem
                 {...currObj}

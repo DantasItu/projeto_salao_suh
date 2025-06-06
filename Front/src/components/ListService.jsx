@@ -6,6 +6,8 @@ import ItemList from "./ItemList.jsx";
 const ListService = () => {
   const [items, setItems] = useState(5); // Controla quantos serviços são exibidos
 
+  const totalItems = servicesArray.length; // checa o total de serviços disponíveis
+
   return (
     <>
       <div className="listService_container">
@@ -27,14 +29,16 @@ const ListService = () => {
         />
       </div>
       <div className="listService__navItems">
-        <p
-          className="listService__see-more"
-          onClick={() => {
-            setItems(items + 5);
-          }}
-        >
-          Ver Mais
-        </p>
+        {items < totalItems && (
+          <p
+            className="listService__see-more"
+            onClick={() => {
+              setItems(items + 5);
+            }}
+          >
+            Ver Mais
+          </p>
+        )}
         {items > 5 && (
           <p
             className="listService__see-less"
@@ -42,7 +46,7 @@ const ListService = () => {
               setItems(items - 5);
             }}
           >
-            Vermenos
+            Ver Menos
           </p>
         )}
       </div>
