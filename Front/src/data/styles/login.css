@@ -107,3 +107,27 @@
   color: var(--marrom-25);
   box-shadow: 0 4px 8px rgba(41, 39, 39, 0.486);
 }
+
+.button_container {
+  margin: 5px;
+  display: flex;
+  justify-content: space-between;
+  width: 95%;
+}
+
+.box_createAccount_button {
+  padding: 10px;
+  background-color: var(--cinza-72);
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--marrom-25);
+  border: 1px solid var(--cinza-72);
+  border-radius: 10px;
+  box-shadow: 0 2px 2px rgba(41, 39, 39, 0.486);
+}
+
+.box_createAccount_button:hover {
+  border: 1px solid var(--cinza-72);
+  background-color: var(--salmao-75);
+  color: var(--marrom-25);
+  box-shadow: 0 4px 8px rgba(41, 39, 39, 0.486);
+}

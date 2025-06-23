@@ -4,6 +4,7 @@ import Home from "./pages/home";
 import LoginPage from "./pages/Login.jsx";
 import Calendario from "./components/Calendario.jsx";
 import ProtectPages from "./pages/ProtectPages.jsx";
+import Register from "./pages/Register.jsx";
 
 const App = () => {
   return (
@@ -26,6 +27,17 @@ const App = () => {
             element={
               <ProtectPages allowedTypes={["admin"]}>
                 <Calendario />
+              </ProtectPages>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <ProtectPages
+                allowedTypes={[null]}
+                redirects={{ admin: "/", cliente: "/", profissional: "/" }}
+              >
+                <Register />
               </ProtectPages>
             }
           />

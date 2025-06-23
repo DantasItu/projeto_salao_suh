@@ -61,10 +61,16 @@ const LoginPage = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <button className="box_login_button" type="submit">
-              {" "}
-              Entrar{" "}
-            </button>
+            <div className="button_container">
+              <button className="box_login_button" type="submit">
+                {" "}
+                Entrar{" "}
+              </button>
+              <Link to="/register" className="box_createAccount_button">
+                {" "}
+                Criar Conta{" "}
+              </Link>
+            </div>
           </form>
         </div>
       </div>
