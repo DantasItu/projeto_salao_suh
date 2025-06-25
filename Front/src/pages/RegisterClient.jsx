@@ -64,10 +64,10 @@ const RegisterClient = () => {
     try {
       await registerCientApi(name, email, password, phone);
       alert("Cadastro realizado com sucesso!");
-      navigate("/login");
     } catch (err) {
       alert(api_errors(err, "Erro ao criar login."));
     }
+    navigate("/login");
   };
 
   return (
