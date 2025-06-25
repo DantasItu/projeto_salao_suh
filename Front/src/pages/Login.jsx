@@ -66,7 +66,7 @@ const LoginPage = () => {
                 {" "}
                 Entrar{" "}
               </button>
-              <Link to="/register" className="box_createAccount_button">
+              <Link to="/registerClient" className="box_createAccount_button">
                 {" "}
                 Criar Conta{" "}
               </Link>

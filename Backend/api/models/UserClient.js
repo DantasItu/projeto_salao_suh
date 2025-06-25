@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema({
       "maquiadora",
       "maquiador",
       "ti",
+      "admin",
     ],
     default: null,
   },
