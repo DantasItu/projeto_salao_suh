@@ -33,7 +33,7 @@ export const registerClient = async (req, res) => {
       process.env.JWT_SECRET,
       {}
     );
-    res.status(400).json({ message: "Usuario criado com sucesso XD!", token });
+    res.status(400).json({ message: "Usuario criado com sucesso!", token });
   } catch (err) {
     //   messagem de erro se não conseguir criar o usuário
     res
@@ -67,7 +67,7 @@ export const registerProficional = async (req, res) => {
       type: "proficional",
     });
 
-    res.status(400).json({ message: "Usuario criado com Sucesso XD!" });
+    res.status(400).json({ message: "Usuario criado com Sucesso!" });
   } catch (err) {
     // mesagem de erro
     res
@@ -100,7 +100,7 @@ export const registerAdmin = async (req, res) => {
       type: "admin",
     });
 
-    res.status(400).json({ message: "Usuario criado com Sucesso XD!" });
+    res.status(400).json({ message: "Usuario criado com Sucesso!" });
   } catch (err) {
     // mesagem de erro
     res

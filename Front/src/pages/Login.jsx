@@ -8,18 +8,21 @@ import "../data/styles/login.css";
 
 // pagina e logica de login do front
 const LoginPage = () => {
-  // funções de status
+  // funções de estado para armazenar os valores de login e senha
   const [login, setlogin] = useState("");
   const [password, setPassword] = useState("");
+
+  // Hook do React Router para navegação
   const navigate = useNavigate();
 
   const statusLogin = async (e) => {
     e.preventDefault();
-    // Função para capitalizar cada palavra
-    // e manter o nome do usuário com a primeira letra maiúscula
+
+    // Função para capitalizar cada palavra e deixar a primeira letra maiúscula
     const capitalizeWords = (str) =>
       str.replace(/\b\w/g, (char) => char.toUpperCase());
-    // deixar o nome do usuário com a primeira letra maiúscula e vefirica se é um email ou nome
+
+    // Verifica se é um email ou nome
     let trimmedLogin;
     if (login.includes("@")) {
       trimmedLogin = login.trim().toLowerCase();

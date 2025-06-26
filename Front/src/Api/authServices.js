@@ -10,7 +10,7 @@ export const loginApi = async (login, password) => {
   return response.data; //Deve conter o token
 };
 
-export const registerCientApi = async (name, email, password, phone) => {
+export const registerClientApi = async (name, email, password, phone) => {
   await axios.post(`${api}/registerClient`, {
     name,
     email,
