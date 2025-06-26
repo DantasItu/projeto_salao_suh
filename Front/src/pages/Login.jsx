@@ -15,8 +15,20 @@ const LoginPage = () => {
 
   const statusLogin = async (e) => {
     e.preventDefault();
+    // Função para capitalizar cada palavra
+    // e manter o nome do usuário com a primeira letra maiúscula
+    const capitalizeWords = (str) =>
+      str.replace(/\b\w/g, (char) => char.toUpperCase());
+    // deixar o nome do usuário com a primeira letra maiúscula e vefirica se é um email ou nome
+    let trimmedLogin;
+    if (login.includes("@")) {
+      trimmedLogin = login.trim().toLowerCase();
+    } else {
+      trimmedLogin = capitalizeWords(login.trim().toLowerCase());
+    }
+
     try {
-      const { token } = await loginApi(login, password);
+      const { token } = await loginApi(trimmedLogin, password);
       localStorage.setItem("token", token);
 
       const type = getUserType();
