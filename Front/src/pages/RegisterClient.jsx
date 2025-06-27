@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { registerClientApi } from "../Api/authServices";
 import { api_errors } from "../Api/api_errors";
 import InputPhone from "../components/InputPhone";
+import "../data/styles/Register.css";
+import logo from "../data/icon/logo redondo.png";
+import { Link } from "react-router-dom";
 
 const RegisterClient = () => {
   const [phone, setPhone] = useState("");
@@ -85,11 +88,14 @@ const RegisterClient = () => {
     str.replace(/\b\w/g, (char) => char.toUpperCase());
 
   return (
-    <div className="register-client">
-      <div className="register-client_container">
+    <div className="register_body">
+      <div className="register_container">
+        <Link to="/">
+          <img className="login_logo" src={logo} />
+        </Link>
         <h2>Preencha todos os dados!</h2>
         <form onSubmit={handleSubmit}>
-          <div className="register-client_input">
+          <div className="register_input">
             Nome:
             <input
               type="text"
@@ -98,7 +104,7 @@ const RegisterClient = () => {
             />
           </div>
 
-          <div className="register-client_input">
+          <div className="register_input">
             Email:
             <input
               type="email"
@@ -106,7 +112,7 @@ const RegisterClient = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="register-client_input">
+          <div className="register_input">
             Confirme seu Email:
             <input
               type="email"
@@ -114,20 +120,25 @@ const RegisterClient = () => {
               onChange={(e) => setConfirmEmail(e.target.value)}
             />
           </div>
-
-          <div className="register-client_input">
-            Senha:
-            <input
-              type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+          <div className="register_input_senha">
+            <div className="register_input">
+              Senha:
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="box_login_button"
+            >
+              {showPassword ? "Ocultar" : "Mostrar"}
+            </button>
           </div>
-          <button type="button" onClick={() => setShowPassword(!showPassword)}>
-            {showPassword ? "Ocultar senha" : "Mostrar senha"}
-          </button>
 
-          <div className="register-client_input">
+          <div className="register_input">
             Confirme sua Senha:
             <input
               type={showPassword ? "text" : "password"}
@@ -136,15 +147,17 @@ const RegisterClient = () => {
             />
           </div>
 
-          <div className="register-client_input">
+          <div className="register_input">
             Telefone:
             <InputPhone value={phone} onChange={setPhone} />
           </div>
-          <div className="register-client_input">
+          <div className="register_input">
             Confirme seu Telefone:
             <InputPhone value={confirmPhone} onChange={setConfirmPhone} />
           </div>
-          <button type="submit">Criar conta</button>
+          <button type="submit" className="box_login_button">
+            Criar conta
+          </button>
         </form>
       </div>
     </div>
