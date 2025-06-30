@@ -1,14 +1,14 @@
 import User from "../models/UserClient.js";
 
 export const verifyUserInfo = async (req, res) => {
-  const { name, email, phone } = req.body;
+  const { email, phone } = req.body;
 
   try {
-    if ((!name, !email, !phone)) {
+    if ((!email, !phone)) {
       return res.status(400).json({ message: "preencha todos os campos" });
     }
 
-    const user = await User.findOne({ name, email, phone });
+    const user = await User.findOne({ email, phone });
     if (!user) {
       return res.status(404).json({ message: "Usuário não encontrado" });
     }

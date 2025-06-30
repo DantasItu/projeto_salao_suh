@@ -18,3 +18,18 @@ export const registerClientApi = async (name, email, password, phone) => {
     phone,
   });
 };
+
+export const verifyUserInfoApi = async (email, phone) => {
+  const response = await axios.post(`${api}/verifyUserInfo`, {
+    email,
+    phone,
+  });
+};
+
+export const resetPasswordApi = async (email, phone, newPassword) => {
+  const response = await axios.post(`${api}/resetPassword`, {
+    email,
+    phone,
+    newPassword,
+  });
+};
