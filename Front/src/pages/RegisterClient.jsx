@@ -6,6 +6,8 @@ import InputPhone from "../components/InputPhone";
 import "../data/styles/Register.css";
 import logo from "../data/icon/logo redondo.png";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 
 const RegisterClient = () => {
   const [phone, setPhone] = useState("");
@@ -90,41 +92,52 @@ const RegisterClient = () => {
   return (
     <div className="register_body">
       <div className="register_container">
-        <Link to="/">
-          <img className="login_logo" src={logo} />
-        </Link>
+        <span
+          onClick={() => navigate(-1)}
+          style={{
+            cursor: "pointer",
+            marginRight: "10px",
+            color: "var(--marrom-25)",
+            fontSize: "20px",
+          }}
+        >
+          <FontAwesomeIcon icon={faAngleLeft} />
+        </span>
+
+        <img className="login_logo" src={logo} />
+
         <h2>Preencha todos os dados!</h2>
         <form onSubmit={handleSubmit}>
           <div className="register_input">
-            Nome:
             <input
               type="text"
+              placeholder="Digita seu Nome"
               value={name}
               onChange={(e) => setName(capitalizeWords(e.target.value))}
             />
           </div>
 
           <div className="register_input">
-            Email:
             <input
               type="email"
+              placeholder="Digita seu Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="register_input">
-            Confirme seu Email:
             <input
               type="email"
+              placeholder="Confirme seu Email"
               value={confirmEmail}
               onChange={(e) => setConfirmEmail(e.target.value)}
             />
           </div>
           <div className="register_input_senha">
             <div className="register_input">
-              Senha:
               <input
                 type={showPassword ? "text" : "password"}
+                placeholder="Digite sua Senha"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -139,21 +152,27 @@ const RegisterClient = () => {
           </div>
 
           <div className="register_input">
-            Confirme sua Senha:
             <input
               type={showPassword ? "text" : "password"}
+              placeholder="Confirme sua Senha"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </div>
 
           <div className="register_input">
-            Telefone:
-            <InputPhone value={phone} onChange={setPhone} />
+            <InputPhone
+              value={phone}
+              onChange={setPhone}
+              placeholder="Digite seu Telefone"
+            />
           </div>
           <div className="register_input">
-            Confirme seu Telefone:
-            <InputPhone value={confirmPhone} onChange={setConfirmPhone} />
+            <InputPhone
+              value={confirmPhone}
+              onChange={setConfirmPhone}
+              placeholder="Confirme seu Telefone"
+            />
           </div>
           <button type="submit" className="box_login_button">
             Criar conta

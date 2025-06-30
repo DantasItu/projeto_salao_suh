@@ -131,3 +131,17 @@
   color: var(--marrom-25);
   box-shadow: 0 4px 8px rgba(41, 39, 39, 0.486);
 }
+
+.link_resetPassword {
+  margin: 5px;
+  color: var(--marrom-25);
+  text-decoration: none;
+  font-size: 10px;
+  margin-top: 10px;
+  align-self: flex-start;
+}
+
+.link_resetPassword:hover {
+  color: var(--branco50-95);
+  text-decoration: underline;
+}

@@ -12,15 +12,16 @@ const ResetPassword = () => {
 
   const handleVerifyUser = async (e) => {
     e.preventDefault();
-    setError("");
 
     const trimmedEmail = email.trim();
     const trimmedPhone = phone.trim();
+    const onlyNumber = trimmedPhone.replace(/\D/g, "");
 
     try {
-      await verifyUserInfoApi(email, phone);
-      navigate("/resetPasswordForm", {
-        state: { email: trimmedEmail, phone: trimmedPhone },
+      await verifyUserInfoApi(trimmedEmail, onlyNumber);
+
+      navigate("/newPassword", {
+        state: { email: trimmedEmail, phone: onlyNumber },
       });
     } catch (err) {
       alert(api_errors(err, "Erro ao verificar usuário na API."));
@@ -28,8 +29,24 @@ const ResetPassword = () => {
   };
 
   return (
-    <div>
-      <h2>Digita seus dados.</h2>
+    <div className="reset-password">
+      <div className="reset-password-container">
+        <h2>Digite seus dados.</h2>
+        <form onSubmit={handleVerifyUser}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <InputPhone
+            value={phone}
+            onChange={setPhone}
+            placeholder="Telefone"
+          />
+          <button type="submit">Enviar</button>
+        </form>
+      </div>
     </div>
   );
 };

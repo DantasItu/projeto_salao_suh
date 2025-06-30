@@ -86,6 +86,9 @@ const LoginPage = () => {
                 Entrar{" "}
               </button>
             </div>
+            <Link to="/resetPassword" className="link_resetPassword">
+              Esqueci minha senha
+            </Link>
           </form>
         </div>
       </div>
