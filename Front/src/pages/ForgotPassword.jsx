@@ -4,7 +4,7 @@ import { api_errors } from "../Api/api_errors";
 import { useNavigate } from "react-router-dom";
 import InputPhone from "../components/InputPhone";
 
-const ResetPassword = () => {
+const ForgotPassword = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = React.useState("");
@@ -51,4 +51,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default ForgotPassword;

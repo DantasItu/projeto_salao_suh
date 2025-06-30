@@ -5,8 +5,7 @@ import LoginPage from "./pages/Login.jsx";
 import Calendario from "./components/Calendario.jsx";
 import ProtectPages from "./pages/ProtectPages.jsx";
 import RegisterClient from "./pages/RegisterClient.jsx";
-import ResetPassword from "./pages/ResetPassword.jsx";
-
+import ForgotPassword from "./pages/ForgotPassword.jsx";
 const App = () => {
   return (
     <>
@@ -54,13 +53,13 @@ const App = () => {
             }
           />
           <Route
-            path="/resetPassword"
+            path="/forgotPassword"
             element={
               <ProtectPages
                 allowedTypes={[null]}
                 redirects={{ admin: "/", cliente: "/", profissional: "/" }}
               >
-                <ResetPassword />
+                <ForgotPassword />
               </ProtectPages>
             }
           />
