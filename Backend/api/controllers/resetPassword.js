@@ -5,7 +5,7 @@ export const resetPassword = async (req, res) => {
   const { email, newPassword, phone } = req.body;
 
   try {
-    if (!email || !newPassword || !phone ) {
+    if (!email || !newPassword || !phone) {
       return res.status(400).json({ message: "Preencha todos os campos" });
     }
 

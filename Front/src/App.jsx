@@ -6,6 +6,8 @@ import Calendario from "./components/Calendario.jsx";
 import ProtectPages from "./pages/ProtectPages.jsx";
 import RegisterClient from "./pages/RegisterClient.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
+import NewPassword from "./pages/newPassword.jsx";
+
 const App = () => {
   return (
     <>
@@ -52,6 +54,7 @@ const App = () => {
               </ProtectPages>
             }
           />
+
           <Route
             path="/forgotPassword"
             element={
@@ -60,6 +63,18 @@ const App = () => {
                 redirects={{ admin: "/", cliente: "/", profissional: "/" }}
               >
                 <ForgotPassword />
+              </ProtectPages>
+            }
+          />
+
+          <Route
+            path="/newPassword"
+            element={
+              <ProtectPages
+                allowedTypes={[null]}
+                redirects={{ admin: "/", cliente: "/", profissional: "/" }}
+              >
+                <NewPassword />
               </ProtectPages>
             }
           />

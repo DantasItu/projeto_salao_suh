@@ -24,10 +24,11 @@ export const verifyUserInfoApi = async (email, phone) => {
     email,
     phone,
   });
+  return response.data; // Deve conter a resposta da API, como um status de sucesso ou erro
 };
 
 export const resetPasswordApi = async (email, phone, newPassword) => {
-  const response = await axios.post(`${api}/resetPassword`, {
+  await axios.post(`${api}/resetPassword`, {
     email,
     phone,
     newPassword,
