@@ -1,0 +1,20 @@
+.container-agendamento {
+    display: flex;
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid var(--cinza-72);
+    border-radius: 10px;
+    background-color: var(--branco50-95);
+    box-shadow: 0 4px 8px var(--shadow);
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+@media screen and (min-width: 700px) {
+    .container-agendamento .calendario-container {
+        max-width: 600px;
+        max-height: 500px;
+        margin: 10px;
+    }
+}

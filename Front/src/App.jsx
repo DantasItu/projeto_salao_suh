@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, redirect } from "react-router-dom";
 import Home from "./pages/home";
 import LoginPage from "./pages/Login.jsx";
 import Calendario from "./components/Calendario.jsx";
@@ -7,6 +7,7 @@ import ProtectPages from "./pages/ProtectPages.jsx";
 import RegisterClient from "./pages/RegisterClient.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import NewPassword from "./pages/newPassword.jsx";
+import AgendamentoCliente from "./pages/AgendamentoCliente.jsx";
 
 const App = () => {
   return (
@@ -27,7 +28,7 @@ const App = () => {
           <Route
             path="/calendario"
             element={
-              <ProtectPages allowedTypes={["admin"]}>
+              <ProtectPages allowedTypes={["admin", null]}>
                 <Calendario />
               </ProtectPages>
             }
@@ -75,6 +76,18 @@ const App = () => {
                 redirects={{ admin: "/", cliente: "/", profissional: "/" }}
               >
                 <NewPassword />
+              </ProtectPages>
+            }
+          />
+          <Route path="*" element={<h1>404 - Not Found</h1>} />
+          <Route
+            path="/agendamento"
+            element={
+              <ProtectPages
+                allowedTypes={[null, "cliente", "admin"]}
+                // redirects={{ admin: "/", profissional: "/" }}
+              >
+                <AgendamentoCliente />
               </ProtectPages>
             }
           />

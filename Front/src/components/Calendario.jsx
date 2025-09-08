@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
-import { format, parse, startOfWeek, getDay } from "date-fns";
+import { format, parse, startOfWeek, getDay, set } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 import { appointments } from "../data/dataBase/Appointments";
-import { height } from "@fortawesome/free-brands-svg-icons/fa42Group";
-import { months } from "moment/moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "../data/styles/Calendario.css";
 
@@ -35,6 +33,7 @@ const Calendario = () => {
   const [events, setEvents] = useState([...appointments]); // arquivos inicias
   const [currentView, setCurrentView] = useState("month"); // view atual do calendário
   const [currentDate, setCurrentDate] = useState(new Date()); // data atual do calendário
+  const [selectedDate, setSelectedDate] = useState(null); // data selecionada no calendário
 
   //\\==================================//\\
   //\\ Container de Funções Auxiliares //\\
@@ -48,6 +47,12 @@ const Calendario = () => {
     setCurrentDate(date); // Atualiza a data atual
   };
 
+  // qundo clicar em um dia do calendario
+  const handleSelectSlot = (slotInfo) => {
+    setSelectedDate(slotInfo.start); // Atualiza a data selecionada
+    console.log("Data selecionada:", slotInfo.start);
+  };
+
   // retorno do que sera ixibido no calendario
   return (
     <>
@@ -55,13 +60,13 @@ const Calendario = () => {
         <Calendar
           localizer={localizer}
           events={events}
-          selectable
           view={currentView}
           onView={handleViewChange}
           onNavigate={handleNaveChange}
           className="calendario"
           date={currentDate}
-          //         onSelectEvent sinal disparado quando selecionamos um evento, para isso deveremos desenvolver uma função
+          selectable={true}
+          onSelectSlot={handleSelectSlot}
           messages={{
             next: "Proximo",
             previous: "Anterior",
