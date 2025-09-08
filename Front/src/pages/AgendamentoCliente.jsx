@@ -4,23 +4,58 @@ import Navbar from "../components/NavBar.jsx";
 import logo from "../data/icon/logo redondo.png";
 import { isAuthenticated, getUserName } from "../utilities/authenticators.js";
 import Calendario from "../components/Calendario.jsx";
+import { appointments } from "../data/dataBase/Appointments.js";
+import { users } from "../data/dataBase/Users.js";
 import "../data/styles/AgendamentoCliente.css";
 
 const AgendamentoCliente = () => {
+  // FUNÇÕES DE ESTADOS
   const [userName, setUserName] = useState(null);
+  const [appointmentsList, setAppointmentsList] = useState([]);
+  const [selectedProfessional, setSelectedProfessional] = useState(null);
+
   const navigate = useNavigate();
 
+  // Verifica se o usuário está autenticado ao carregar o componente
   useEffect(() => {
     if (isAuthenticated()) {
       setUserName(getUserName());
     }
   }, []);
 
+  // FUNÇÃO DE LOGOUT
   const Logout = () => {
     localStorage.removeItem("token");
     setUserName(null);
     navigate("/");
   };
+
+  const listProfessional = users
+    .filter((user) => user.type === "professional")
+    .map((prof) => ({
+      id: prof.id,
+      name: prof.name,
+    }));
+  console.log(listProfessional);
+
+  // Carregar a lista de agendamentos ao montar o componente sem nome e sem o serviço somente com a data
+  useEffect(() => {
+    if (!selectedProfessional) {
+      setAppointmentsList([]);
+      return;
+    }
+    const filteredAppointments = appointments
+      .filter(
+        (appointment) =>
+          appointment.professionalId === Number(selectedProfessional)
+      )
+      .map((appointment) => ({
+        start: appointment.start,
+        end: appointment.end,
+        title: "Ocupado",
+      }));
+    setAppointmentsList(filteredAppointments);
+  }, [selectedProfessional]);
 
   return (
     <>
@@ -53,8 +88,19 @@ const AgendamentoCliente = () => {
       <div className="container-agendamento">
         <div className="menu-calendario">
           <h2>Selecione um dia e Horario disponivel.</h2>
+          <select
+            value={selectedProfessional || ""}
+            onChange={(e) => setSelectedProfessional(e.target.value)}
+          >
+            <option value="">Selecione um profissional</option>
+            {listProfessional.map((prof) => (
+              <option key={prof.id} value={prof.id}>
+                {prof.name}
+              </option>
+            ))}
+          </select>
         </div>
-        <Calendario />
+        <Calendario appointments={appointmentsList} />
       </div>
     </>
   );

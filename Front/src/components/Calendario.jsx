@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import { format, parse, startOfWeek, getDay, set } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
-import { appointments } from "../data/dataBase/Appointments";
+// import { appointments } from "../data/dataBase/Appointments";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "../data/styles/Calendario.css";
 
@@ -20,7 +20,7 @@ const localizer = dateFnsLocalizer({
   locales: { "pt-BR": ptBR },
 });
 
-const Calendario = () => {
+const Calendario = ({ appointments = [] }) => {
   useEffect(() => {
     setEvents([...appointments]);
   }, [appointments]); // execulta sempre que ouver alterações no banco de dados
