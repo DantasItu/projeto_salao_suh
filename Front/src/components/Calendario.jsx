@@ -21,16 +21,17 @@ const localizer = dateFnsLocalizer({
 });
 
 const Calendario = ({ appointments = [] }) => {
+  const [events, setEvents] = useState(appointments); // Arquivos iniciais
+
   useEffect(() => {
-    setEvents([...appointments]);
-  }, [appointments]); // execulta sempre que ouver alterações no banco de dados
+    setEvents(appointments);
+  }, [appointments]); // Atualiza os eventos do calendário sempre que a prop 'appointments' mudar
 
   //              ----//--------      //
 
   //\\============================//\\
   //\\   Container de Funções   //\\
   // \\=========================//\\
-  const [events, setEvents] = useState([...appointments]); // arquivos inicias
   const [currentView, setCurrentView] = useState("month"); // view atual do calendário
   const [currentDate, setCurrentDate] = useState(new Date()); // data atual do calendário
   const [selectedDate, setSelectedDate] = useState(null); // data selecionada no calendário

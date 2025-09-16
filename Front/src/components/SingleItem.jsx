@@ -37,7 +37,7 @@ const SingleItem = ({
         <p className={`${divStyle}_valor`}>{formattedPrice}</p>
       </div>
       {buttonView && (
-        <Link to="/" className={`${divStyle}_button`}>
+        <Link to="/agendamento" className={`${divStyle}_button`}>
           Agendar
         </Link>
       )}
