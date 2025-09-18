@@ -1,0 +1,81 @@
+.meus-agendamentos-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background-color: var(--branco50-95);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px var(--shadow);
+    text-align: center;
+}
+
+.meus-agendamentos-container h2 {
+    color: var(--marrom-25);
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--salmao-75);
+    padding-bottom: 1rem;
+}
+
+.appointment-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.appointment-card {
+    background-color: #fff;
+    border: 1px solid var(--cinza-72);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: left;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.appointment-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.appointment-card-header h3 {
+    margin: 0;
+    color: var(--marrom-25);
+    font-size: 1.2rem;
+}
+
+.appointment-date {
+    font-weight: 600;
+    color: var(--branco50-95);
+    background-color: var(--marrom-25);
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+}
+
+.appointment-card-body p {
+    margin: 0.5rem 0;
+    color: #555;
+    line-height: 1.5;
+}
+
+.appointment-card-body strong {
+    color: var(--marrom-10);
+}
+
+.no-appointments-message {
+    color: #777;
+    font-style: italic;
+    font-size: 1.1rem;
+    margin-top: 2rem;
+}

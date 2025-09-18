@@ -20,7 +20,7 @@ const localizer = dateFnsLocalizer({
   locales: { "pt-BR": ptBR },
 });
 
-const Calendario = ({ appointments = [] }) => {
+const Calendario = ({ appointments = [], onSelectSlot }) => {
   const [events, setEvents] = useState(appointments); // Arquivos iniciais
 
   useEffect(() => {
@@ -34,7 +34,6 @@ const Calendario = ({ appointments = [] }) => {
   // \\=========================//\\
   const [currentView, setCurrentView] = useState("month"); // view atual do calendário
   const [currentDate, setCurrentDate] = useState(new Date()); // data atual do calendário
-  const [selectedDate, setSelectedDate] = useState(null); // data selecionada no calendário
 
   //\\==================================//\\
   //\\ Container de Funções Auxiliares //\\
@@ -50,8 +49,10 @@ const Calendario = ({ appointments = [] }) => {
 
   // qundo clicar em um dia do calendario
   const handleSelectSlot = (slotInfo) => {
-    setSelectedDate(slotInfo.start); // Atualiza a data selecionada
-    console.log("Data selecionada:", slotInfo.start);
+    // The parent component will now handle the logic for the selected slot.
+    if (onSelectSlot) {
+      onSelectSlot(slotInfo);
+    }
   };
 
   // retorno do que sera ixibido no calendario

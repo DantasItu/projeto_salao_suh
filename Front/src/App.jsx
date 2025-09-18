@@ -7,6 +7,7 @@ import ProtectPages from "./pages/ProtectPages.jsx";
 import RegisterClient from "./pages/RegisterClient.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import NewPassword from "./pages/newPassword.jsx";
+import ListaDeAgendamentos from "./pages/ListaDeAgendamentos.jsx";
 import AgendamentoCliente from "./pages/AgendamentoCliente.jsx";
 
 const App = () => {
@@ -88,6 +89,17 @@ const App = () => {
                 // redirects={{ admin: "/", profissional: "/" }}
               >
                 <AgendamentoCliente />
+              </ProtectPages>
+            }
+          />
+          <Route
+            path="/listAgenda"
+            element={
+              <ProtectPages
+                allowedTypes={[null, "cliente", "admin", "profissional"]}
+                // redirects={{ admin: "/", profissional: "/" }}
+              >
+                <ListaDeAgendamentos />
               </ProtectPages>
             }
           />

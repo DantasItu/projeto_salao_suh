@@ -1,20 +1,394 @@
 .container-agendamento {
     display: flex;
+    /* Mobile-first: empilha verticalmente e centraliza os itens */
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
     margin: 20px;
     padding: 10px;
+}
+
+.menu-calendario {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 450px;
+    /* Limita a largura em celulares maiores/tablets */
+    padding: 20px;
     border: 1px solid var(--cinza-72);
     border-radius: 10px;
     background-color: var(--branco50-95);
     box-shadow: 0 4px 8px var(--shadow);
-    flex-direction: column;
-    align-items: center;
     text-align: center;
 }
 
-@media screen and (min-width: 700px) {
-    .container-agendamento .calendario-container {
-        max-width: 600px;
-        max-height: 500px;
-        margin: 10px;
+/* Em telas maiores, exibe lado a lado */
+@media screen and (min-width: 992px) {
+    .container-agendamento {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
     }
+
+    .menu-calendario {
+        flex: 0 1 450px;
+    }
+}
+
+/* Estilos para o Modal (Popup) */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    max-width: 450px;
+    width: 90%;
+    box-shadow: 0 4px 8px var(--shadow);
+    position: relative;
+    outline: none;
+    text-align: left;
+}
+
+.modal h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #333;
+}
+
+.form-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.form-modal label {
+    font-weight: 600;
+    color: #555;
+}
+
+.form-modal select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.form-modal button {
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--marrom-25);
+    color: var(--branco50-95);
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.form-modal button:hover {
+    background-color: var(--salmao-75);
+    color: var(--marrom-25);
+}
+
+.appointment-summary {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #f7f7f7;
+    border: 1px solid #e7e7e7;
+    border-radius: 8px;
+}
+
+.appointment-summary h4 {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.5rem;
+}
+
+.appointment-summary p {
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
+}
+
+/* Estilos para os "quadradinhos" de horário */
+.available-times-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    /* Ajusta o número de colunas */
+    gap: 10px;
+    margin-top: 10px;
+    max-height: 200px;
+    /* Limita a altura para adicionar scroll se houver muitos horários */
+    overflow-y: auto;
+    /* Adiciona barra de rolagem vertical */
+    padding-right: 5px;
+    /* Espaço para a barra de rolagem */
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #fdfdfd;
+}
+
+.time-slot-button {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 8px 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-align: center;
+    color: #333;
+    font-weight: 500;
+}
+
+.time-slot-button:hover {
+    background-color: var(--salmao-75);
+    color: var(--marrom-25);
+    border-color: var(--salmao-75);
+}
+
+.time-slot-button.selected,
+.time-slot-button.selected:hover {
+    background-color: var(--salmao-75);
+    color: var(--marrom-25);
+    color: var(--branco50-95);
+    border-color: var(--salmao-75);
+    font-weight: bold;
+    cursor: default;
+}
+
+.available-times-grid p {
+    grid-column: 1 / -1;
+    /* Faz o texto ocupar todas as colunas */
+    text-align: center;
+    color: #777;
+    font-style: italic;
+    margin: 0;
+}
+
+/* Estilos para a lista de serviços */
+.service-list-container {
+    margin-top: 20px;
+    width: 100%;
+    max-height: 300px;
+    /* Ajuste a altura máxima conforme necessário */
+    overflow-y: auto;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.service-list-container.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.service-item-card {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    background-color: var(--salmao-70);
+}
+
+.service-item-card:hover {
+    border-color: var(--salmao-75);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    background-color: var(--salmao-75);
+}
+
+.service-item-card.selected-item {
+    border-color: var(--marrom-25);
+    background-color: var(--salmao-75);
+    /* Um tom de salmão bem claro */
+    box-shadow: 0 0 0 2px var(--marrom-25);
+    transform: translateY(0);
+}
+
+.service-item-card_image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+    border: 2px solid var(--branco50-95);
+}
+
+.service-item-card_texts {
+    flex: 1;
+    text-align: left;
+    overflow: hidden;
+}
+
+.service-item-card_2lines h1 {
+    font-size: 1rem;
+    margin: 0 0 4px 0;
+    color: #333;
+}
+
+.service-item-card_2lines_description {
+    font-size: 0.85rem;
+    color: #777;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.service-item-card_valor {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--marrom-25);
+    margin-top: 5px;
+}
+
+.service-list-container>p {
+    color: #777;
+    font-style: italic;
+}
+
+/* Estilo para o botão de fechar o modal */
+.close-modal-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #aaa;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    transition: color 0.2s ease-in-out;
+}
+
+.close-modal-button:hover {
+    color: #333;
+}
+
+/* Estilos para a lista de profissionais */
+.professional-list-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.professional-item-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    transition: all 0.2s ease-in-out;
+    width: 100px;
+    /* Largura fixa para o card */
+}
+
+.professional-item-card:hover {
+    background-color: var(--salmao-75);
+}
+
+.professional-item-card.selected-item {
+    border-color: var(--marrom-25);
+    background-color: var(--salmao-75);
+}
+
+.professional-item-card_image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--cinza-72);
+    margin-bottom: 8px;
+}
+
+.professional-item-card.selected-item .professional-item-card_image {
+    border-color: var(--salmao-75);
+}
+
+.professional-item-card_name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #333;
+    margin: 0;
+}
+
+.professional-item-card_role {
+    font-size: 0.8rem;
+    color: #777;
+    text-transform: capitalize;
+    margin: 0;
+}
+
+/* Estilos para o resumo de serviços selecionados */
+.selected-services-summary {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid var(--salmao-75);
+    border-radius: 8px;
+    background-color: #fffaf8;
+    width: 100%;
+    max-width: 500px;
+    text-align: left;
+}
+
+.selected-services-summary h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--marrom-25);
+    text-align: center;
+}
+
+.selected-services-summary ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 15px;
+}
+
+.selected-services-summary li {
+    padding: 5px 0;
+    border-bottom: 1px solid #f0e5e1;
+}
+
+.confirm-services-button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--marrom-25);
+    color: var(--branco50-95);
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.confirm-services-button:hover:not(:disabled) {
+    background-color: #5a4a42;
+    /* Um tom mais escuro de marrom */
 }

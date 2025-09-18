@@ -4,6 +4,7 @@ export const servicesArray = [
     name: "Corte",
     description: "Corte de cabelo masculino e feminino.",
     price: 50.0,
+    duration: 60,
     professionalId: [3, 4],
     role: "services",
     image:
@@ -14,6 +15,7 @@ export const servicesArray = [
     name: "Escova",
     description: "Escova de cabelo.",
     price: 30.0,
+    duration: 45,
     professionalId: [3],
     role: "services",
     image:
@@ -24,6 +26,7 @@ export const servicesArray = [
     name: "maquiagem",
     description: "Maquiagem para festas e eventos.",
     price: 40.0,
+    duration: 60,
     professionalId: [3],
     role: "services",
     image:
@@ -34,6 +37,7 @@ export const servicesArray = [
     name: "Progressiva para cabelo médio",
     description: "Progressiva com formol",
     price: 150.0,
+    duration: 180,
     professionalId: [3],
     role: "services",
     image:
@@ -44,6 +48,7 @@ export const servicesArray = [
     name: "Progressiva para cabelo longo",
     description: "Progressiva com formol",
     price: 250.0,
+    duration: 240,
     professionalId: [3],
     role: "services",
     image:
@@ -54,6 +59,7 @@ export const servicesArray = [
     name: "Penteado",
     description: "Penteado para festas e eventos.",
     price: 150.0,
+    duration: 90,
     professionalId: [3],
     role: "services",
     image:
@@ -64,7 +70,9 @@ export const servicesArray = [
     name: "Manicure",
     description: "Cuidado e esmaltação das unhas.",
     price: 25.0,
+    duration: 45,
     professionalId: [5],
+    isBlocking: false, // Permite agendamentos simultâneos
     role: "services",
     image:
       "https://i.pinimg.com/236x/3a/2b/4c/3a2b4c5b6a7b8c9d9e0f7e8f9a6b7c8d.jpg",
@@ -74,7 +82,9 @@ export const servicesArray = [
     name: "Pedicure",
     description: "Cuidado e esmaltação dos pés.",
     price: 30.0,
+    duration: 60,
     professionalId: [5],
+    isBlocking: false, // Permite agendamentos simultâneos
     role: "services",
     image:
       "https://i.pinimg.com/236x/4b/3c/5d/4b3c5d6e7f8a9b0c1d2e3f4g5h6i7j8k.jpg",
@@ -84,6 +94,7 @@ export const servicesArray = [
     name: "Hidratação Capilar",
     description: "Tratamento para hidratar e revitalizar os cabelos.",
     price: 60.0,
+    duration: 60,
     professionalId: [3],
     role: "services",
     image:
@@ -94,6 +105,7 @@ export const servicesArray = [
     name: "Depilação",
     description: "Depilação com cera quente ou fria.",
     price: 80.0,
+    duration: 45,
     professionalId: [3],
     role: "services",
     image:
@@ -104,6 +116,7 @@ export const servicesArray = [
     name: "Massagem Relaxante",
     description: "Massagem para aliviar o estresse e relaxar o corpo.",
     price: 120.0,
+    duration: 60,
     professionalId: [3],
     role: "services",
     image:
@@ -114,6 +127,7 @@ export const servicesArray = [
     name: "Limpeza de Pele",
     description: "Tratamento para limpeza profunda da pele.",
     price: 100.0,
+    duration: 75,
     professionalId: [3],
     role: "services",
     image:
@@ -124,6 +138,7 @@ export const servicesArray = [
     name: "Banho de Lua",
     description: "Clareamento dos pelos do corpo.",
     price: 90.0,
+    duration: 60,
     professionalId: [3],
     role: "services",
     image:
@@ -134,6 +149,7 @@ export const servicesArray = [
     name: "Design de Sobrancelhas",
     description: "Modelagem e design das sobrancelhas.",
     price: 50.0,
+    duration: 30,
     professionalId: [3],
     role: "services",
     image:
@@ -144,6 +160,7 @@ export const servicesArray = [
     name: "Alongamento de Cílios",
     description: "Aplicação de cílios fio a fio.",
     price: 200.0,
+    duration: 120,
     professionalId: [3],
     role: "services",
     image:
@@ -154,6 +171,7 @@ export const servicesArray = [
     name: "Peeling Facial",
     description: "Tratamento para renovação da pele do rosto.",
     price: 150.0,
+    duration: 60,
     professionalId: [3],
     role: "services",
     image:
@@ -164,6 +182,7 @@ export const servicesArray = [
     name: "Escova Progressiva",
     description: "Alisamento capilar sem formol.",
     price: 300.0,
+    duration: 180,
     professionalId: [3],
     role: "services",
     image:
@@ -174,6 +193,7 @@ export const servicesArray = [
     name: "Corte Infantil",
     description: "Corte de cabelo para crianças.",
     price: 40.0,
+    duration: 45,
     professionalId: [3, 4],
     role: "services",
     image:
@@ -184,6 +204,7 @@ export const servicesArray = [
     name: "Barba",
     description: "Aparar e modelar a barba.",
     price: 35.0,
+    duration: 30,
     professionalId: [4],
     role: "services",
     image:
@@ -194,6 +215,7 @@ export const servicesArray = [
     name: "Esfoliação Corporal",
     description: "Tratamento para remover células mortas da pele.",
     price: 110.0,
+    duration: 60,
     professionalId: [3],
     role: "services",
     image:

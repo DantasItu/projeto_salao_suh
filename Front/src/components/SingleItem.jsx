@@ -8,6 +8,8 @@ const SingleItem = ({
   description,
   price,
   view_button,
+  onClick,
+  isSelected,
 }) => {
   // transfromar o price em Valor monetário em real brasileiro
   const formattedPrice = new Intl.NumberFormat("pt-BR", {
@@ -22,8 +24,10 @@ const SingleItem = ({
     setButtonView(view_button);
   });
 
+  const containerClassName = `${divStyle} ${isSelected ? "selected-item" : ""}`;
+
   return (
-    <div className={divStyle}>
+    <div className={containerClassName} onClick={onClick}>
       <img
         src={image}
         alt="Imagem do serviço"

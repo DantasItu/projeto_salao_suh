@@ -25,6 +25,8 @@ export const users = [
     phone: "+5511997420809",
     role: "cabelereira",
     type: "professional",
+    image:
+      "https://i.pinimg.com/564x/e3/29/2c/e3292ce7345a7c5a06a7a75e425b1f6f.jpg",
   },
   {
     id: 4,
@@ -34,6 +36,8 @@ export const users = [
     phone: "+5511987654321",
     role: "barbeiro",
     type: "professional",
+    image:
+      "https://i.pinimg.com/736x/1f/81/b5/1f81b5b8370eb18941f20ebdddbfb948.jpg",
   },
   {
     id: 5,
@@ -43,6 +47,8 @@ export const users = [
     phone: "+5511976543210",
     role: "manicure",
     type: "professional",
+    image:
+      "https://i.pinimg.com/736x/75/e5/70/75e570051e66473857b0d4cfc0802aac.jpg",
   },
   {
     id: 6,

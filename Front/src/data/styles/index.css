@@ -206,6 +206,17 @@ input {
   font-size: 10px;
 }
 
+@media screen and (max-width: 400px) {
+  .navBar_link {
+    font-size: 20px;
+    margin: 5px;
+  }
+
+  .navBar_link_text {
+    font-size: 8px;
+  }
+}
+
 /* ListService */
 .listService_container {
   width: 100%;

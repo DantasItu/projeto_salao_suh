@@ -12,19 +12,25 @@
 
 /* calendario */
 .calendario-container {
-  height: 600px;
-  width: 90%;
-  margin: 10px 0;
+  /* Estilos para mobile-first */
+  height: 500px;
+  width: 100%;
+  max-width: 450px;
+  /* Consistente com o menu no mobile */
+  margin: 0;
   padding: 5px;
-  border: 1px solid var(--branco50-95);
+  border: 1px solid var(--cinza-72);
   border-radius: 10px;
   box-shadow: 0 4px 8px var(--shadow);
+  background-color: var(--branco50-95);
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (min-width: 992px) {
   .calendario-container {
-    height: 400px;
-    width: 95%;
+    flex: 1;
+    /* Ocupa o espaço restante */
+    max-width: 700px;
+    height: 600px;
   }
 }
 
