@@ -107,6 +107,15 @@ const MeusAgendamentos = () => {
             Você ainda não possui agendamentos.
           </p>
         )}
+        <br />
+        <br />
+
+        <button
+          className="botao_criar_agendamento"
+          onClick={() => navigate("/agendamento")}
+        >
+          Novo Agendamento
+        </button>
       </div>
     </>
   );

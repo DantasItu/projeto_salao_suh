@@ -1,10 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../data/icon/logo redondo.png";
 import Navbar from "./NavBar.jsx";
 
 // Componente de cabeçalho reutilizável
 const Header = ({ userName, onLogout }) => {
+  const location = useLocation();
   return (
     <>
       <div className="header">
@@ -18,10 +19,21 @@ const Header = ({ userName, onLogout }) => {
         <div className="header_button">
           {userName ? (
             <div className="header_user">
-              <span className="header_user_anuciado">Olá, {userName}</span>
-              <button className="header__button_logout" onClick={onLogout}>
-                Sair
-              </button>
+              <div>
+                <span className="header_user_anuciado">Olá, {userName}</span>
+                <button className="header__button_logout" onClick={onLogout}>
+                  Sair
+                </button>
+              </div>
+              <br />
+              {location.pathname !== "/listAgenda" && (
+                <Link
+                  to="/listAgenda"
+                  className="header__button_meus_agendamentos"
+                >
+                  Meus Agendamentos
+                </Link>
+              )}
             </div>
           ) : (
             <Link to="/login" className="header__button_login">

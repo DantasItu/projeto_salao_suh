@@ -1,6 +1,6 @@
 .meus-agendamentos-container {
-    max-width: 800px;
-    margin: 2rem auto;
+    max-width: 100%vh;
+    margin: 10px;
     padding: 1.5rem;
     background-color: var(--branco50-95);
     border-radius: 10px;
@@ -78,4 +78,22 @@
     font-style: italic;
     font-size: 1.1rem;
     margin-top: 2rem;
+}
+
+.meus-agendamentos-container .botao_criar_agendamento {
+    float: left;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: var(--cinza-72);
+    color: var(--marrom-25);
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 1rem;
+    box-shadow: 0 2px 5px var(--shadow);
+    transition: background-color 0.3s ease;
+}
+
+.meus-agendamentos-container .botao_criar_agendamento:hover {
+    background-color: var(--salmao-75);
 }
