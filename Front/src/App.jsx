@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, redirect } from "react-router-dom";
-import Home from "./pages/home";
+import Home from "./pages/Home.jsx";
 import LoginPage from "./pages/Login.jsx";
 import Calendario from "./components/Calendario.jsx";
 import ProtectPages from "./pages/ProtectPages.jsx";
 import RegisterClient from "./pages/RegisterClient.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
-import NewPassword from "./pages/newPassword.jsx";
+import NewPassword from "./pages/NewPassword.jsx";
 import ListaDeAgendamentos from "./pages/ListaDeAgendamentos.jsx";
 import AgendamentoCliente from "./pages/AgendamentoCliente.jsx";
 

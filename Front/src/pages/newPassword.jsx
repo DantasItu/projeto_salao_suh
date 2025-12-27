@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { resetPasswordApi } from "../Api/authServices.js";
 import { useLocation, useNavigate } from "react-router-dom";
-import { api_errors } from "../Api/api_errors";
-import "../data/styles/newPassword.css";
+import { api_errors } from "../Api/api_errors.js";
+import "../data/styles/NewPassword.css";
 
 const NewPassword = () => {
   const navigate = useNavigate();
