@@ -4,8 +4,9 @@ import logo from "../data/icon/logo redondo.png";
 import Navbar from "./NavBar.jsx";
 
 // Componente de cabeçalho reutilizável
-const Header = ({ userName, onLogout }) => {
+const Header = ({ userName, onLogout, showNavbar = true }) => {
   const location = useLocation();
+
   return (
     <>
       <div className="header">
@@ -42,7 +43,7 @@ const Header = ({ userName, onLogout }) => {
           )}
         </div>
       </div>
-      <Navbar />
+      {showNavbar && <Navbar />}
     </>
   );
 };
