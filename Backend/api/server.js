@@ -3,6 +3,10 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
 import authUsers from "./routes/authUsers.js";
+import dns from "dns";
+
+// Definir o DNS pro node
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 dotenv.config();
 

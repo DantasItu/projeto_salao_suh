@@ -59,3 +59,14 @@ export const registerAppointments = async (req, res) => {
       .json({ message: "Erro ao registrar agendamento", error: err.message });
   }
 };
+
+export const getAppointments = async (req, res) => {
+  try {
+    const appointments = await Appointments.find();
+    return res.status(200).json(appointments);
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Erro ao buscar agendamentos", error: err.message });
+  }
+};

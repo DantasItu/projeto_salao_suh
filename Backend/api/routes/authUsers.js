@@ -8,7 +8,10 @@ import {
 import { verifyUserInfo } from "../controllers/verifyUserInfo.js";
 import { resetPassword } from "../controllers/resetPassword.js";
 import protectRoute from "../middlewares/protectRoute.js";
-import { registerAppointments } from "../controllers/registerAppointments.js";
+import {
+  registerAppointments,
+  getAppointments,
+} from "../controllers/appointments.js";
 
 const router = express.Router();
 
@@ -19,5 +22,6 @@ router.post("/login", login);
 router.post("/verifyUserInfo", verifyUserInfo);
 router.post("/resetPassword", resetPassword);
 router.post("/registerAppointments", registerAppointments);
+router.get("/getAppointments", getAppointments);
 
 export default router;
