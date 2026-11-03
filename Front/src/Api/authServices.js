@@ -34,3 +34,16 @@ export const resetPasswordApi = async (email, phone, newPassword) => {
     newPassword,
   });
 };
+
+export const registerAppointments = async () => {
+  const response = await axios.get(`${api}/getAppointments`);
+  return response.data;
+};
+
+export const registerAppointmentsApi = async (appointmentData) => {
+  const response = await axios.post(
+    `${api}/registerAppointments`,
+    appointmentData,
+  );
+  return response.data;
+};
