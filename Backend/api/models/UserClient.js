@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ["cliente", "proficional", "admin"],
+    enum: ["cliente", "profissional", "admin"],
     default: "cliente",
   },
 });

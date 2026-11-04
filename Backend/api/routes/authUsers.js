@@ -13,6 +13,8 @@ import {
   getAppointments,
 } from "../controllers/appointments.js";
 
+import { getProficionais } from "../controllers/userCrontoller.js";
+
 const router = express.Router();
 
 router.post("/registerClient", registerClient);
@@ -23,5 +25,6 @@ router.post("/verifyUserInfo", verifyUserInfo);
 router.post("/resetPassword", resetPassword);
 router.post("/registerAppointments", registerAppointments);
 router.get("/getAppointments", getAppointments);
+router.get("/getProficionais", getProficionais);
 
 export default router;
