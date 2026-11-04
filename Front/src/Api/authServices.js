@@ -35,15 +35,30 @@ export const resetPasswordApi = async (email, phone, newPassword) => {
   });
 };
 
-export const registerAppointments = async () => {
+export const getAppointments = async () => {
   const response = await axios.get(`${api}/getAppointments`);
   return response.data;
 };
 
-export const registerAppointmentsApi = async (appointmentData) => {
+export const registerAppointments = async (appointmentData) => {
   const response = await axios.post(
     `${api}/registerAppointments`,
     appointmentData,
   );
+  return response.data;
+};
+
+export const getProficionais = async () => {
+  const response = await axios.get(`${api}/getProficionais`);
+  return response.data;
+};
+
+export const getServices = async () => {
+  const response = await axios.get(`${api}/getServices`);
+  return response.data;
+};
+
+export const creatServices = async (serviceData) => {
+  const response = await axios.post(`${api}/creatServices`, serviceData);
   return response.data;
 };

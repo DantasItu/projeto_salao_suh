@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { isAuthenticated, getUserName } from "../utilities/authenticators.js";
-import { appointments as mockAppointments } from "../data/dataBase/Appointments.js";
 import { users } from "../data/dataBase/Users.js";
 import { servicesArray as allServices } from "../data/dataBase/Services.js";
 import "../data/styles/MeusAgendamentos.css";
@@ -45,11 +44,11 @@ const MeusAgendamentos = () => {
 
     if (currentUserType === "professional") {
       filteredAppointments = allAppointments.filter(
-        (appt) => appt.professionalId === currentUserId
+        (appt) => appt.professionalId === currentUserId,
       );
     } else {
       filteredAppointments = allAppointments.filter(
-        (appt) => appt.clientId === currentUserId
+        (appt) => appt.clientId === currentUserId,
       );
     }
 

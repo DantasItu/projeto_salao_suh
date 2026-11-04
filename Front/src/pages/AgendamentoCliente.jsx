@@ -15,7 +15,6 @@ import {
 } from "../utilities/authenticators.js";
 import Calendario from "../components/Calendario.jsx";
 import Modal from "react-modal";
-import { appointments } from "../data/dataBase/Appointments.js";
 import { users } from "../data/dataBase/Users.js";
 import { servicesArray as Services } from "../data/dataBase/Services.js";
 import Header from "../components/Header.jsx";
@@ -24,6 +23,7 @@ import ServiceList from "../components/ServiceList.jsx";
 import SelectedServicesSummary from "../components/SelectedServicesSummary.jsx";
 import AppointmentModal from "../components/AppointmentModal.jsx";
 import "../data/styles/AgendamentoCliente.css";
+import { getAppointments, registerAppointments } from "../Api/authServices.js";
 
 // Define o elemento raiz da aplicação para o Modal, melhorando a acessibilidade.
 Modal.setAppElement("#root");
@@ -56,24 +56,24 @@ const AgendamentoCliente = () => {
     }
   }, []);
 
-  // Efeito para carregar os agendamentos do localStorage ou do arquivo de mock na primeira vez.
+  // Efeito para carregar os agendamentos da api ou do arquivo de mock na primeira vez.
   useEffect(() => {
-    // Tenta carregar os agendamentos do localStorage.
-    const storedAppointments = localStorage.getItem("myAppointments");
-    let initialAppointments;
-
-    if (storedAppointments) {
-      // Se encontrou, converte de JSON, garantindo que as datas sejam objetos Date.
-      initialAppointments = JSON.parse(storedAppointments).map((appt) => ({
-        ...appt,
-        start: new Date(appt.start),
-        end: new Date(appt.end),
-      }));
-    } else {
-      // Se não, usa a lista inicial do arquivo de mock.
-      initialAppointments = appointments; // from import
-    }
-    setAllAppointments(initialAppointments);
+    const fetchAppointments = async () => {
+      try {
+        const dataAppointments = await getAppointments();
+        // converter as string de data do mongoDB para objetos Date do js
+        const formattedApointments = dataAppointments.map((appt) => ({
+          ...appt,
+          start: new Date(appt.start),
+          end: new Date(appt.end),
+        }));
+        setAllAppointments(formattedApointments);
+      } catch (err) {
+        console.error("Erro ao carregar agendamentos:", err);
+        alert("Não foi possivel carregar a agenda");
+      }
+    };
+    fetchAppointments();
   }, []);
 
   // Efeito para resetar o serviço selecionado sempre que o profissional for alterado.
@@ -96,7 +96,7 @@ const AgendamentoCliente = () => {
     const filteredAppointments = allAppointments
       .filter(
         (appointment) =>
-          appointment.professionalId === Number(selectedProfessional)
+          appointment.professionalId === Number(selectedProfessional),
       )
       .map((appointment) => ({
         start: appointment.start,
@@ -131,7 +131,7 @@ const AgendamentoCliente = () => {
         }
         return acc;
       },
-      { totalDuration: 0, isBlocking: false }
+      { totalDuration: 0, isBlocking: false },
     );
 
     if (totalDuration === 0) {
@@ -154,7 +154,7 @@ const AgendamentoCliente = () => {
     const professionalAppointmentsOnDate = allAppointments.filter(
       (appt) =>
         appt.professionalId === Number(selectedProfessional) &&
-        isSameDay(appt.start, selectedDate)
+        isSameDay(appt.start, selectedDate),
     );
 
     const times = []; // Array para armazenar os horários disponíveis.
@@ -179,7 +179,8 @@ const AgendamentoCliente = () => {
 
       // Verifica se o slot atual (slotStart, slotEnd) se sobrepõe com algum agendamento existente.
       const overlappingAppointments = professionalAppointmentsOnDate.filter(
-        (appt) => isBefore(slotStart, appt.end) && isBefore(appt.start, slotEnd)
+        (appt) =>
+          isBefore(slotStart, appt.end) && isBefore(appt.start, slotEnd),
       );
 
       let isOccupied = false;
@@ -227,7 +228,7 @@ const AgendamentoCliente = () => {
     // Validação: Exige que profissional e serviço sejam selecionados primeiro.
     if (!selectedProfessional || !servicesConfirmed) {
       alert(
-        "Por favor, selecione um profissional e um serviço antes de escolher uma data."
+        "Por favor, selecione um profissional e um serviço antes de escolher uma data.",
       );
       return;
     }
@@ -242,7 +243,7 @@ const AgendamentoCliente = () => {
   };
 
   // Função para criar o agendamento ao confirmar no modal.
-  const handleScheduleAppointment = (e) => {
+  const handleScheduleAppointment = async (e) => {
     e.preventDefault(); // Impede o recarregamento da página.
 
     // Validação: Exige que um horário seja selecionado.
@@ -258,7 +259,7 @@ const AgendamentoCliente = () => {
     // Validação: Verifica se os dados do usuário são válidos.
     if (!currentUserId || !currentUserName) {
       alert(
-        "Erro: Informações de usuário inválidas. Por favor, faça login novamente."
+        "Erro: Informações de usuário inválidas. Por favor, faça login novamente.",
       );
       navigate("/login");
       return;
@@ -266,17 +267,15 @@ const AgendamentoCliente = () => {
 
     // Encontra os objetos completos de serviço e profissional.
     const selectedServiceObjects = selectedServices.map((id) =>
-      Services.find((s) => s.id === Number(id))
+      Services.find((s) => s.id === Number(id)),
     );
     const serviceNames = selectedServiceObjects.map((s) => s.name).join(", ");
     const totalDuration = selectedServiceObjects.reduce(
       (sum, s) => sum + s.duration,
-      0
+      0,
     );
 
-    const professional = users.find(
-      (u) => u.id === Number(selectedProfessional)
-    );
+    const professional = users.find((u) => u._id === selectedProfessional);
 
     // Constrói as datas de início e fim do agendamento.
     const [hours, minutes] = selectedTime.split(":").map(Number);
@@ -285,43 +284,42 @@ const AgendamentoCliente = () => {
 
     // Cria o novo objeto de agendamento.
     const newAppointment = {
-      id: allAppointments.length + 1, // Geração de ID simples para o mock.
       title: currentUserName,
       description: `${serviceNames} - Profissional: ${professional.name}`,
-      serviceId: selectedServices.map(Number), // Salva um array de IDs
+      serviceId: selectedServices, // Salva um array de IDs
       clientId: currentUserId,
-      professionalId: professional.id, // Usando o ID numérico do mock
-      start: startTime,
-      end: endTime,
+      professionalId: professional._id, // Usando o ID numérico do mock
+      start: startTime.toISOString(),
+      end: endTime.toISOString(),
     };
 
-    // 1. Cria a nova lista completa de agendamentos
-    const updatedAppointments = [...allAppointments, newAppointment];
+    try {
+      console.log("Enviado payload:", newAppointment);
+      await registerAppointments(newAppointment);
 
-    // 2. Atualiza o estado que armazena todos os agendamentos
-    setAllAppointments(updatedAppointments);
+      // Exibe uma mensagem de sucesso.
+      alert(
+        `Agendamento confirmado para ${currentUserName}!\nServiço: ${serviceNames}\nProfissional: ${
+          professional.name
+        }\nData: ${format(startTime, "dd/MM/yyyy")} às ${format(
+          startTime,
+          "HH:mm",
+        )}`,
+      );
 
-    // 3. Salva a lista atualizada no localStorage para que os dados persistam.
-    localStorage.setItem("myAppointments", JSON.stringify(updatedAppointments));
+      // A lista do calendário (appointmentsList) será atualizada automaticamente
+      // pelo useEffect que observa mudanças em 'allAppointments'.
+      // setAppointmentsList([...appointmentsList, newAppointment]); // Esta linha não é mais necessária.
 
-    // Exibe uma mensagem de sucesso.
-    alert(
-      `Agendamento confirmado para ${currentUserName}!\nServiço: ${serviceNames}\nProfissional: ${
-        professional.name
-      }\nData: ${format(startTime, "dd/MM/yyyy")} às ${format(
-        startTime,
-        "HH:mm"
-      )}`
-    );
-
-    // A lista do calendário (appointmentsList) será atualizada automaticamente
-    // pelo useEffect que observa mudanças em 'allAppointments'.
-    // setAppointmentsList([...appointmentsList, newAppointment]); // Esta linha não é mais necessária.
-
-    // Reseta os estados do modal e da seleção.
-    setModalIsOpen(false);
-    setSelectedTime("");
-    setSelectedDate(null);
+      // Reseta os estados do modal e da seleção.
+      setModalIsOpen(false);
+      setSelectedTime("");
+      setSelectedDate(null);
+    } catch (err) {
+      console.error("erro detalhado do backend:", err.response?.data);
+      const errorMessage =
+        err.response?.data?.message || "erro ao realizar o agendamento";
+    }
   };
 
   // Função para adicionar ou remover um serviço da lista de selecionados.
@@ -329,7 +327,7 @@ const AgendamentoCliente = () => {
     // Se a seleção de serviços já foi confirmada, o usuário deve clicar em "Alterar Serviços" primeiro.
     if (servicesConfirmed) {
       alert(
-        'Para alterar os serviços, clique em "Alterar Serviços" abaixo da lista.'
+        'Para alterar os serviços, clique em "Alterar Serviços" abaixo da lista.',
       );
       return;
     }
@@ -339,7 +337,7 @@ const AgendamentoCliente = () => {
       prev.includes(idStr)
         ? prev.filter((id) => id !== idStr)
         : // TODO: Adicionar lógica para não permitir adicionar serviços não-bloqueantes se um bloqueante já foi selecionado e vice-versa.
-          [...prev, idStr]
+          [...prev, idStr],
     );
   };
 
@@ -367,16 +365,16 @@ const AgendamentoCliente = () => {
           role: prof.role,
           image: prof.image,
         })),
-    [] // A lista de usuários é estática, então o array de dependências está vazio.
+    [], // A lista de usuários é estática, então o array de dependências está vazio.
   );
 
   // Lista de serviços filtrada com base no profissional selecionado.
   const listServices = useMemo(
     () =>
       Services.filter((service) =>
-        service.professionalId.includes(Number(selectedProfessional))
+        service.professionalId.includes(Number(selectedProfessional)),
       ),
-    [selectedProfessional]
+    [selectedProfessional],
   );
 
   // =================================================================
