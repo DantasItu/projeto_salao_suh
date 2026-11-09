@@ -124,10 +124,11 @@ const AgendamentoCliente = () => {
         start: appointment.start,
         end: appointment.end,
         // Se o agendamento pertence ao usuário logado, mostra o nome dele, senão, mostra um texto genérico.
-        title: String(appointment.clientId?._id ?? appointment.clientId) ===
-        String(getUserID())
-          ? getUserName()
-          : "Horário Ocupado",
+        title:
+          String(appointment.clientId?._id ?? appointment.clientId) ===
+          String(getUserID())
+            ? getUserName()
+            : "Horário Ocupado",
       }));
     setAppointmentsList(filteredAppointments);
   }, [selectedProfessional, userName, allAppointments]);
@@ -176,8 +177,7 @@ const AgendamentoCliente = () => {
     const professionalAppointmentsOnDate = allAppointments.filter(
       (appt) =>
         String(appt.professionalId?._id ?? appt.professionalId) ===
-          String(selectedProfessional) &&
-        isSameDay(appt.start, selectedDate),
+          String(selectedProfessional) && isSameDay(appt.start, selectedDate),
     );
 
     const times = []; // Array para armazenar os horários disponíveis.
@@ -411,7 +411,7 @@ const AgendamentoCliente = () => {
         id: professional.id,
         name: professional.name,
         role: professional.role,
-        image: professional.image,
+        img: professional.img,
       })),
     [professionals],
   );

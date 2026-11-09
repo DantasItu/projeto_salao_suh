@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema({
     enum: ["cliente", "profissional", "admin"],
     default: "cliente",
   },
+  img: { type: String },
 });
 
 export default mongoose.model("User", userSchema);

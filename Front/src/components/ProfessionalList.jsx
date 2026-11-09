@@ -17,7 +17,7 @@ const ProfessionalList = ({
           onClick={() => onSelectProfessional(String(prof.id))}
         >
           <img
-            src={prof.image}
+            src={prof.img}
             alt={prof.name}
             className="professional-item-card_image"
           />

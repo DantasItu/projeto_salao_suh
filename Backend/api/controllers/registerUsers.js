@@ -5,7 +5,7 @@ import User from "../models/UserClient.js";
 // Função para registrar um novo cliente.
 export const registerClient = async (req, res) => {
   // Desestruturação dos dados do corpo da requisição (body).
-  const { name, phone, email, password } = req.body;
+  const { name, phone, email, password, img } = req.body;
 
   try {
     // Validação: Verifica se todos os campos obrigatórios foram preenchidos.
@@ -26,6 +26,7 @@ export const registerClient = async (req, res) => {
       phone,
       email,
       password: hashedPassword,
+      img,
     });
 
     // Cria um token JWT contendo informações do usuário para autenticação.
@@ -34,7 +35,7 @@ export const registerClient = async (req, res) => {
       process.env.JWT_SECRET,
       {
         expiresIn: "7d", // Define o tempo de expiração do token (7 dias)
-      }
+      },
     );
     // Retorna uma resposta de sucesso com o token gerado.
     res.status(201).json({ message: "Usuario criado com sucesso!", token });
@@ -50,7 +51,7 @@ export const registerClient = async (req, res) => {
 export const registerProficional = async (req, res) => {
   try {
     // Desestruturação dos dados do corpo da requisição.
-    const { name, phone, email, password, role } = req.body;
+    const { name, phone, email, password, role, img } = req.body;
     // Validação: Verifica se todos os campos obrigatórios foram preenchidos.
     if (!name || !phone || !email || !password || !role) {
       return res.status(400).json({ message: "Preencha todos os campos" });
@@ -71,6 +72,7 @@ export const registerProficional = async (req, res) => {
       password: hashedPassword,
       role,
       type: "profissional",
+      img,
     });
 
     res.status(201).json({ message: "Usuario criado com Sucesso!" });
@@ -86,7 +88,7 @@ export const registerProficional = async (req, res) => {
 export const registerAdmin = async (req, res) => {
   try {
     // Desestruturação dos dados do corpo da requisição.
-    const { name, phone, email, password, role } = req.body;
+    const { name, phone, email, password, role, img } = req.body;
     // Validação: Verifica se todos os campos obrigatórios foram preenchidos.
     if (!name || !phone || !email || !password || !role) {
       return res.status(400).json({ message: "Preencha todos os campos" });
@@ -107,6 +109,7 @@ export const registerAdmin = async (req, res) => {
       password: hashedPassword,
       role,
       type: "admin", // Define o tipo de usuário como 'admin'.
+      img,
     });
 
     // Retorna uma resposta de sucesso. (Nota: Também usa status 400 incorretamente).

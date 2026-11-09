@@ -2,8 +2,8 @@ import User from "../models/UserClient.js";
 
 export const getProficionais = async (req, res) => {
   try {
-    const profissionais = await User.find({ role: "profissional" }).select(
-      "_id name role email phone",
+    const profissionais = await User.find({ type: "profissional" }).select(
+      "_id name role email phone img",
     );
     res.status(200).json(profissionais);
   } catch (error) {

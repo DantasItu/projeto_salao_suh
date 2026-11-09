@@ -50,13 +50,19 @@ export const registerAppointments = async (appointmentData) => {
 
 export const getProficionais = async () => {
   const response = await axios.get(`${api}/getProficionais`);
-  return response.data.map((professional) => ({
-    ...professional,
-    id: String(professional._id),
-    name: professional.name ?? professional.nome,
-    image: professional.image ?? professional.imagem,
-    type: "professional",
-  }));
+  return response.data.map((professional) => {
+    const image =
+      professional.img ?? professional.image ?? professional.imagem;
+
+    return {
+      ...professional,
+      id: String(professional._id),
+      name: professional.name ?? professional.nome,
+      image,
+      img: image,
+      type: "professional",
+    };
+  });
 };
 
 export const getUsers = async () => {
@@ -87,7 +93,7 @@ export const getServices = async () => {
       ).map((professional) =>
         String(professional?._id ?? professional),
       ),
-      image: service.image ?? service.imagem,
+      image: service.image ?? service.img ?? service.imagem,
       role: "services",
     };
   });

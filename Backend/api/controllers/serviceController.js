@@ -2,23 +2,23 @@ import Services from "../models/Services.js";
 
 export const creatServices = async (req, res) => {
   try {
-    const { nome, descricao, preco, duracao, profissionalId, imagem } =
+    const { name, description, price, duration, profissionalId, img } =
       req.body;
 
-    if (!nome || preco === undefined || !duracao) {
+    if (!name || price === undefined || !duration) {
       return res.status(400).json({
         message:
-          "Preencha todos os campos obrigatórios (Nome, Preço e Duração).",
+          "Preencha todos os campos obrigatórios (name, Preço e Duração).",
       });
     }
 
     const newService = new Services({
-      nome,
-      descricao,
-      preco,
-      duracao,
+      name,
+      description,
+      price,
+      duration,
       profissionalId: profissionalId || [],
-      imagem,
+      img,
     });
 
     const savedService = await newService.save();
@@ -37,7 +37,7 @@ export const getServices = async (req, res) => {
   try {
     const services = await Services.find().populate(
       "profissionalId",
-      "nome role email phone imagem",
+      "name role email phone imgm",
     );
     res.status(200).json(services);
   } catch (err) {
