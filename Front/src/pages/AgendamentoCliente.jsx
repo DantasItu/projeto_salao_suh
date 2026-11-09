@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   addMinutes,
   format,
@@ -15,15 +15,18 @@ import {
 } from "../utilities/authenticators.js";
 import Calendario from "../components/Calendario.jsx";
 import Modal from "react-modal";
-import { users } from "../data/dataBase/Users.js";
-import { servicesArray as Services } from "../data/dataBase/Services.js";
 import Header from "../components/Header.jsx";
 import ProfessionalList from "../components/ProfessionalList.jsx";
 import ServiceList from "../components/ServiceList.jsx";
 import SelectedServicesSummary from "../components/SelectedServicesSummary.jsx";
 import AppointmentModal from "../components/AppointmentModal.jsx";
 import "../data/styles/AgendamentoCliente.css";
-import { getAppointments, registerAppointments } from "../Api/authServices.js";
+import {
+  getAppointments,
+  getProficionais,
+  getServices,
+  registerAppointments,
+} from "../Api/authServices.js";
 
 // Define o elemento raiz da aplicação para o Modal, melhorando a acessibilidade.
 Modal.setAppElement("#root");
@@ -39,7 +42,9 @@ const AgendamentoCliente = () => {
   const [servicesConfirmed, setServicesConfirmed] = useState(false); // Controla se a seleção de serviços foi confirmada.
   const [appointmentsList, setAppointmentsList] = useState([]); // Armazena a lista de agendamentos a ser exibida no calendário.
   const [selectedDate, setSelectedDate] = useState(null); // Armazena a data que o usuário clica no calendário.
-  const [allAppointments, setAllAppointments] = useState([]); // Armazena TODOS os agendamentos (do mock e os novos).
+  const [allAppointments, setAllAppointments] = useState([]);
+  const [professionals, setProfessionals] = useState([]);
+  const [services, setServices] = useState([]);
   const [availableTimes, setAvailableTimes] = useState([]); // Armazena os horários disponíveis calculados para o dia/serviço.
   const [selectedTime, setSelectedTime] = useState(""); // Armazena o horário que o usuário seleciona no modal.
 
@@ -56,24 +61,40 @@ const AgendamentoCliente = () => {
     }
   }, []);
 
-  // Efeito para carregar os agendamentos da api ou do arquivo de mock na primeira vez.
+  // Carrega os dados usados para montar a agenda a partir da API.
   useEffect(() => {
-    const fetchAppointments = async () => {
+    let isMounted = true;
+
+    const fetchBookingData = async () => {
       try {
-        const dataAppointments = await getAppointments();
-        // converter as string de data do mongoDB para objetos Date do js
-        const formattedApointments = dataAppointments.map((appt) => ({
-          ...appt,
-          start: new Date(appt.start),
-          end: new Date(appt.end),
-        }));
-        setAllAppointments(formattedApointments);
+        const [appointmentsData, professionalsData, servicesData] =
+          await Promise.all([
+            getAppointments(),
+            getProficionais(),
+            getServices(),
+          ]);
+
+        if (!isMounted) return;
+        setAllAppointments(
+          appointmentsData.map((appointment) => ({
+            ...appointment,
+            start: new Date(appointment.start),
+            end: new Date(appointment.end),
+          })),
+        );
+        setProfessionals(professionalsData);
+        setServices(servicesData);
       } catch (err) {
-        console.error("Erro ao carregar agendamentos:", err);
-        alert("Não foi possivel carregar a agenda");
+        console.error("Erro ao carregar dados da agenda:", err);
+        if (isMounted) alert("Não foi possível carregar a agenda.");
       }
     };
-    fetchAppointments();
+
+    fetchBookingData();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // Efeito para resetar o serviço selecionado sempre que o profissional for alterado.
@@ -92,20 +113,21 @@ const AgendamentoCliente = () => {
       return;
     }
 
-    // Filtra os agendamentos do mock 'appointments' para o profissional selecionado.
     const filteredAppointments = allAppointments
       .filter(
         (appointment) =>
-          appointment.professionalId === Number(selectedProfessional),
+          String(
+            appointment.professionalId?._id ?? appointment.professionalId,
+          ) === String(selectedProfessional),
       )
       .map((appointment) => ({
         start: appointment.start,
         end: appointment.end,
         // Se o agendamento pertence ao usuário logado, mostra o nome dele, senão, mostra um texto genérico.
-        title:
-          appointment.title === getUserName()
-            ? getUserName()
-            : "Horário Ocupado",
+        title: String(appointment.clientId?._id ?? appointment.clientId) ===
+        String(getUserID())
+          ? getUserName()
+          : "Horário Ocupado",
       }));
     setAppointmentsList(filteredAppointments);
   }, [selectedProfessional, userName, allAppointments]);
@@ -121,7 +143,7 @@ const AgendamentoCliente = () => {
     // Calcula a duração total e o status de bloqueio de todos os serviços selecionados
     const { totalDuration, isBlocking } = selectedServices.reduce(
       (acc, serviceId) => {
-        const service = Services.find((s) => s.id === Number(serviceId));
+        const service = services.find((s) => s.id === String(serviceId));
         if (service) {
           acc.totalDuration += service.duration;
           // Se qualquer um dos serviços for bloqueante, o agendamento inteiro é bloqueante.
@@ -153,7 +175,8 @@ const AgendamentoCliente = () => {
     // Filtra os agendamentos existentes para o profissional e a data selecionada.
     const professionalAppointmentsOnDate = allAppointments.filter(
       (appt) =>
-        appt.professionalId === Number(selectedProfessional) &&
+        String(appt.professionalId?._id ?? appt.professionalId) ===
+          String(selectedProfessional) &&
         isSameDay(appt.start, selectedDate),
     );
 
@@ -195,7 +218,8 @@ const AgendamentoCliente = () => {
               ? appt.serviceId
               : [appt.serviceId];
             return appointmentServiceIds.some((id) => {
-              const service = Services.find((s) => s.id === id);
+              const serviceId = String(id?._id ?? id);
+              const service = services.find((s) => s.id === serviceId);
               return service ? service.isBlocking !== false : true;
             });
           });
@@ -210,7 +234,14 @@ const AgendamentoCliente = () => {
       slotStart = addMinutes(slotStart, 15);
     }
     setAvailableTimes(times);
-  }, [selectedDate, selectedServices, selectedProfessional, servicesConfirmed]);
+  }, [
+    selectedDate,
+    selectedServices,
+    selectedProfessional,
+    servicesConfirmed,
+    services,
+    allAppointments,
+  ]);
 
   // =================================================================
   // FUNÇÕES DE MANIPULAÇÃO DE EVENTOS (HANDLERS)
@@ -266,16 +297,27 @@ const AgendamentoCliente = () => {
     }
 
     // Encontra os objetos completos de serviço e profissional.
-    const selectedServiceObjects = selectedServices.map((id) =>
-      Services.find((s) => s.id === Number(id)),
-    );
+    const selectedServiceObjects = selectedServices
+      .map((id) => services.find((service) => service.id === String(id)))
+      .filter(Boolean);
+    if (selectedServiceObjects.length !== selectedServices.length) {
+      alert("Não foi possível localizar um dos serviços selecionados.");
+      return;
+    }
+
     const serviceNames = selectedServiceObjects.map((s) => s.name).join(", ");
     const totalDuration = selectedServiceObjects.reduce(
       (sum, s) => sum + s.duration,
       0,
     );
 
-    const professional = users.find((u) => u._id === selectedProfessional);
+    const professional = professionals.find(
+      (user) => user.id === String(selectedProfessional),
+    );
+    if (!professional) {
+      alert("Não foi possível localizar o profissional selecionado.");
+      return;
+    }
 
     // Constrói as datas de início e fim do agendamento.
     const [hours, minutes] = selectedTime.split(":").map(Number);
@@ -288,7 +330,7 @@ const AgendamentoCliente = () => {
       description: `${serviceNames} - Profissional: ${professional.name}`,
       serviceId: selectedServices, // Salva um array de IDs
       clientId: currentUserId,
-      professionalId: professional._id, // Usando o ID numérico do mock
+      professionalId: professional._id,
       start: startTime.toISOString(),
       end: endTime.toISOString(),
     };
@@ -296,6 +338,14 @@ const AgendamentoCliente = () => {
     try {
       console.log("Enviado payload:", newAppointment);
       await registerAppointments(newAppointment);
+      setAllAppointments((currentAppointments) => [
+        ...currentAppointments,
+        {
+          ...newAppointment,
+          start: startTime,
+          end: endTime,
+        },
+      ]);
 
       // Exibe uma mensagem de sucesso.
       alert(
@@ -319,6 +369,7 @@ const AgendamentoCliente = () => {
       console.error("erro detalhado do backend:", err.response?.data);
       const errorMessage =
         err.response?.data?.message || "erro ao realizar o agendamento";
+      alert(errorMessage);
     }
   };
 
@@ -354,27 +405,23 @@ const AgendamentoCliente = () => {
   // DADOS PARA RENDERIZAÇÃO
   // =================================================================
 
-  // Lista de profissionais filtrada do mock 'users'.
   const listProfessional = useMemo(
     () =>
-      users
-        .filter((user) => user.type === "professional")
-        .map((prof) => ({
-          id: prof.id,
-          name: prof.name,
-          role: prof.role,
-          image: prof.image,
-        })),
-    [], // A lista de usuários é estática, então o array de dependências está vazio.
+      professionals.map((professional) => ({
+        id: professional.id,
+        name: professional.name,
+        role: professional.role,
+        image: professional.image,
+      })),
+    [professionals],
   );
 
-  // Lista de serviços filtrada com base no profissional selecionado.
   const listServices = useMemo(
     () =>
-      Services.filter((service) =>
-        service.professionalId.includes(Number(selectedProfessional)),
+      services.filter((service) =>
+        service.professionalId.includes(String(selectedProfessional)),
       ),
-    [selectedProfessional],
+    [selectedProfessional, services],
   );
 
   // =================================================================
@@ -408,7 +455,7 @@ const AgendamentoCliente = () => {
               />
               <SelectedServicesSummary
                 selectedServices={selectedServices}
-                allServices={Services}
+                allServices={services}
                 servicesConfirmed={servicesConfirmed}
                 onConfirm={handleConfirmServices}
                 onEdit={() => setServicesConfirmed(false)}
@@ -436,8 +483,8 @@ const AgendamentoCliente = () => {
         onSchedule={handleScheduleAppointment}
         selectedServices={selectedServices}
         selectedProfessional={selectedProfessional}
-        allServices={Services}
-        allUsers={users}
+        allServices={services}
+        allUsers={professionals}
       />
     </>
   );

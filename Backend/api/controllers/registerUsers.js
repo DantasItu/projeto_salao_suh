@@ -64,17 +64,16 @@ export const registerProficional = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Cria o usuário profissional no banco de dados.
-    const user = User.create({
+    await User.create({
       name,
       phone,
       email,
       password: hashedPassword,
       role,
-      type: "proficional", // Define o tipo de usuário como 'proficional'.
+      type: "profissional",
     });
 
-    // Retorna uma resposta de sucesso. (Nota: Não gera token aqui, talvez seja intencional).
-    res.status(400).json({ message: "Usuario criado com Sucesso!" }); // O status code 400 (Bad Request) parece incorreto para sucesso. Deveria ser 201 (Created).
+    res.status(201).json({ message: "Usuario criado com Sucesso!" });
   } catch (err) {
     // Em caso de erro no servidor, retorna uma mensagem de erro.
     res

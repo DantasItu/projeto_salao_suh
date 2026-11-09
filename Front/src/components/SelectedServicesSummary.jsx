@@ -17,7 +17,7 @@ const SelectedServicesSummary = ({
       <h4>Serviços Selecionados</h4>
       <ul>
         {selectedServices.map((id) => {
-          const service = allServices.find((s) => s.id === Number(id));
+          const service = allServices.find((s) => s.id === String(id));
           return <li key={id}>{service?.name}</li>;
         })}
       </ul>

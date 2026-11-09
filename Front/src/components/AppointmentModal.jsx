@@ -17,9 +17,11 @@ const AppointmentModal = ({
   allServices,
   allUsers,
 }) => {
-  const professional = allUsers.find((u) => u._id === selectedProfessional);
+  const professional = allUsers.find(
+    (u) => u.id === String(selectedProfessional),
+  );
   const serviceNames = selectedServices
-    .map((id) => allServices.find((s) => s._id === Number(id))?.name)
+    .map((id) => allServices.find((s) => s.id === String(id))?.name)
     .filter(Boolean)
     .join(", ");
 

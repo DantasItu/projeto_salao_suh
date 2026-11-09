@@ -2,9 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { isAuthenticated, getUserName } from "../utilities/authenticators.js";
-import { users } from "../data/dataBase/Users.js";
-import { servicesArray as allServices } from "../data/dataBase/Services.js";
+import {
+  getUserID,
+  getUserType,
+  isAuthenticated,
+} from "../utilities/authenticators.js";
+import {
+  getAppointments,
+  getProficionais,
+  getServices,
+  getUsers,
+} from "../Api/authServices.js";
 import "../data/styles/MeusAgendamentos.css";
 
 const MeusAgendamentos = () => {
@@ -17,59 +25,74 @@ const MeusAgendamentos = () => {
       return;
     }
 
-    const currentUserName = getUserName();
+    let isMounted = true;
 
-    const currentUser = users.find((user) => user.name === currentUserName);
+    const loadAppointments = async () => {
+      try {
+        const [appointments, clients, professionals, services] =
+          await Promise.all([
+            getAppointments(),
+            getUsers(),
+            getProficionais(),
+            getServices(),
+          ]);
 
-    if (!currentUser) {
-      return;
-    }
+        const currentUserId = getUserID();
+        const isProfessional = ["professional", "profissional"].includes(
+          getUserType(),
+        );
+        const people = isProfessional ? clients : professionals;
+        const filteredAppointments = appointments.filter((appointment) =>
+          String(
+            isProfessional
+              ? appointment.professionalId?._id ?? appointment.professionalId
+              : appointment.clientId?._id ?? appointment.clientId,
+          ) === String(currentUserId),
+        );
 
-    const currentUserId = currentUser.id;
-    const currentUserType = currentUser.type;
+        const enrichedAppointments = filteredAppointments.map((appointment) => {
+          const serviceIds = Array.isArray(appointment.serviceId)
+            ? appointment.serviceId
+            : [appointment.serviceId];
+          const serviceNames = serviceIds
+            .map((service) => {
+              const serviceId = String(service?._id ?? service);
+              return services.find((item) => item.id === serviceId)?.name;
+            })
+            .filter(Boolean)
+            .join(", ");
+          const otherPartyId = isProfessional
+            ? appointment.clientId
+            : appointment.professionalId;
+          const otherParty = people.find(
+            (person) =>
+              person.id === String(otherPartyId?._id ?? otherPartyId),
+          );
 
-    const storedAppointments = localStorage.getItem("myAppointments");
-    let allAppointments = mockAppointments;
+          return {
+            ...appointment,
+            title: otherParty?.name || appointment.title || "Desconhecido",
+            services: serviceNames || "Serviço não identificado",
+          };
+        });
 
-    if (storedAppointments) {
-      const parsedAppointments = JSON.parse(storedAppointments).map((appt) => ({
-        ...appt,
-        start: new Date(appt.start),
-        end: new Date(appt.end),
-      }));
-      allAppointments = [...mockAppointments, ...parsedAppointments];
-    }
+        enrichedAppointments.sort(
+          (a, b) => new Date(b.start) - new Date(a.start),
+        );
+        if (isMounted) setUserAppointments(enrichedAppointments);
+      } catch (error) {
+        console.error("Erro ao carregar seus agendamentos:", error);
+        if (isMounted) {
+          alert("Não foi possível carregar seus agendamentos. Tente novamente.");
+        }
+      }
+    };
 
-    let filteredAppointments = [];
+    loadAppointments();
 
-    if (currentUserType === "professional") {
-      filteredAppointments = allAppointments.filter(
-        (appt) => appt.professionalId === currentUserId,
-      );
-    } else {
-      filteredAppointments = allAppointments.filter(
-        (appt) => appt.clientId === currentUserId,
-      );
-    }
-
-    const enrichedAppointments = filteredAppointments.map((appt) => {
-      const serviceIds = Array.isArray(appt.serviceId)
-        ? appt.serviceId
-        : [appt.serviceId];
-      const services = serviceIds
-        .map((id) => allServices.find((s) => s.id === id)?.name)
-        .join(", ");
-
-      const otherParty =
-        currentUserType === "professional"
-          ? users.find((u) => u.id === appt.clientId)
-          : users.find((u) => u.id === appt.professionalId);
-
-      return { ...appt, title: otherParty?.name || "Desconhecido", services };
-    });
-
-    enrichedAppointments.sort((a, b) => new Date(b.start) - new Date(a.start));
-    setUserAppointments(enrichedAppointments);
+    return () => {
+      isMounted = false;
+    };
   }, [navigate]);
 
   return (
@@ -79,7 +102,7 @@ const MeusAgendamentos = () => {
         {userAppointments.length > 0 ? (
           <ul className="appointment-list">
             {userAppointments.map((appt) => (
-              <li key={appt.id} className="appointment-card">
+              <li key={appt._id} className="appointment-card">
                 <div className="appointment-card-header">
                   <h3>{appt.title}</h3>
                   <span className="appointment-date">

@@ -12,7 +12,7 @@ import {
   registerAppointments,
   getAppointments,
 } from "../controllers/appointments.js";
-import { getProficionais } from "../controllers/userCrontoller.js";
+import { getProficionais, getUsers } from "../controllers/userCrontoller.js";
 import {
   creatServices,
   getServices,
@@ -32,5 +32,6 @@ router.post("/creatServices", creatServices);
 router.get("/getAppointments", getAppointments);
 router.get("/getProficionais", getProficionais);
 router.get("/getServices", getServices);
+router.get("/getUsers", getUsers);
 
 export default router;

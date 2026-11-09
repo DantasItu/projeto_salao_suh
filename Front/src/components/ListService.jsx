@@ -1,28 +1,51 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchBar from "./SearchBar.jsx";
-import { servicesArray } from "../data/dataBase/Services.js";
+import { getServices } from "../data/dataBase/Services.js";
 import ItemList from "./ItemList.jsx";
 
 const ListService = () => {
   const [items, setItems] = useState(5); // Controla quantos serviços são exibidos
+  const [services, setServices] = useState([]);
+  const [error, setError] = useState("");
 
-  const totalItems = servicesArray.length; // checa o total de serviços disponíveis
+  useEffect(() => {
+    let isMounted = true;
+
+    getServices()
+      .then((data) => {
+        if (isMounted) setServices(data);
+      })
+      .catch((loadError) => {
+        console.error("Erro ao carregar serviços:", loadError);
+        if (isMounted) setError("Não foi possível carregar os serviços.");
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const totalItems = services.length;
 
   return (
     <>
       <div className="listService_container">
         <h1 className="listService_title">Serviços</h1>
         <div className="listService_searchBar">
-          <SearchBar
-            searchBarItem={servicesArray}
-            divStyle="listService_searchBar_input"
-            text="Digite qual serviço você procura..."
-            view_button={true}
-          />
+          {error ? (
+            <p role="alert">{error}</p>
+          ) : (
+            <SearchBar
+              searchBarItem={services}
+              divStyle="listService_searchBar_input"
+              text="Digite qual serviço você procura..."
+              view_button={true}
+            />
+          )}
         </div>
 
         <ItemList
-          itemsArrays={servicesArray}
+          itemsArrays={services}
           typeItems="services"
           divStyle="listService_singleItem"
           items={items}

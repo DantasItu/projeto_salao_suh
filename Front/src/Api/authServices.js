@@ -50,12 +50,47 @@ export const registerAppointments = async (appointmentData) => {
 
 export const getProficionais = async () => {
   const response = await axios.get(`${api}/getProficionais`);
-  return response.data;
+  return response.data.map((professional) => ({
+    ...professional,
+    id: String(professional._id),
+    name: professional.name ?? professional.nome,
+    image: professional.image ?? professional.imagem,
+    type: "professional",
+  }));
+};
+
+export const getUsers = async () => {
+  const response = await axios.get(`${api}/getUsers`);
+  return response.data.map((user) => ({
+    ...user,
+    id: String(user._id),
+    type: user.type ?? "client",
+  }));
 };
 
 export const getServices = async () => {
   const response = await axios.get(`${api}/getServices`);
-  return response.data;
+  return response.data.map((service) => {
+    const professionalIds =
+      service.profissionalId ?? service.professionalId ?? [];
+
+    return {
+      ...service,
+      id: String(service._id),
+      name: service.name ?? service.nome,
+      description: service.description ?? service.descricao,
+      price: service.price ?? service.preco,
+      duration: service.duration ?? service.duracao,
+      professionalId: (Array.isArray(professionalIds)
+        ? professionalIds
+        : [professionalIds]
+      ).map((professional) =>
+        String(professional?._id ?? professional),
+      ),
+      image: service.image ?? service.imagem,
+      role: "services",
+    };
+  });
 };
 
 export const creatServices = async (serviceData) => {
