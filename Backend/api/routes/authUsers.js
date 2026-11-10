@@ -11,6 +11,7 @@ import protectRoute from "../middlewares/protectRoute.js";
 import {
   registerAppointments,
   getAppointments,
+  deleteAppointments,
 } from "../controllers/appointments.js";
 import { getProficionais, getUsers } from "../controllers/userCrontoller.js";
 import {
@@ -39,5 +40,7 @@ router.post("/registerAdmin", protectRoute("admin"), registerAdmin);
 router.post("/creatServices", protectRoute("admin"), creatServices);
 router.post("/registerProficional", protectRoute("admin"), registerProficional);
 router.delete("/deleteService", protectRoute("admin"), deleteService);
+router.delete("/deleteService", protectRoute("admin"), deleteService);
+router.delete("/deleteAppointment", protectRoute("admin"), deleteAppointments);
 
 export default router;

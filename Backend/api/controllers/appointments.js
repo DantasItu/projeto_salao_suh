@@ -60,6 +60,7 @@ export const registerAppointments = async (req, res) => {
   }
 };
 
+//busca os Appointments
 export const getAppointments = async (req, res) => {
   try {
     const appointments = await Appointments.find();
@@ -68,5 +69,29 @@ export const getAppointments = async (req, res) => {
     return res
       .status(500)
       .json({ message: "Erro ao buscar agendamentos", error: err.message });
+  }
+};
+
+// Apagar um agendamento
+export const deleteAppointments = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    if (!id) {
+      return res.status(400).json({ message: "selecione um Agendamento" });
+    }
+    // Buscar um agendamento
+    const agendamento = Appointments.findById(id);
+
+    if (!agendamento) {
+      return res.status(404).json({ message: "Agendamento não localizado" });
+    }
+    await Appointments.findByIdAndDelete(id);
+
+    return res.status(200).json({ message: "Agendamento apagado com sucesso" });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "erro ao apagar o Serviço", err: err.message });
   }
 };
